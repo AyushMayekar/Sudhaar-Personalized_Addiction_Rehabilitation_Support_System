@@ -25,8 +25,8 @@ def SignUp(request):
 
         if pass1 != pass2:
             print("password did not match")
-            render(request, 'signup.html', {'error': 'Passwords do not match'})
-            pass
+            return render(request, 'signup.html', {'error': 'Passwords do not match'})
+            
             # return render(request, 'signup.html', {'error': 'Passwords do not match'})
 
         # Create the user document
@@ -123,6 +123,12 @@ def Login(request):
         # Check the password
             if check_password_hash(user['password'], password):
                 print("\n\nUSER MATCHED")
+
+                user_obj = User(username=username)  # Get the Django user object
+                refresh = RefreshToken.for_user(user_obj)
+                access_token = str(refresh.access_token)
+                print("\n\nNEW ACCESS TOKEN GENERATED:", access_token, "\n\n")
+
                 return render(request, 'login.html')
             else:
                 print("PASSWORD INCORRECT")
