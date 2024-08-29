@@ -1,0 +1,127 @@
+/* General reset and font setup */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url('bg.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+.chat-container {
+    width: 500px; /* Increased width */
+    height: 600px; /* Increased height */
+    max-width: 90%;
+    background: rgba(255, 255, 255, 0.2); /* Light background with transparency */
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px); /* Glass effect */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Border for glass effect */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-header {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(50, 50, 50, 0.8));
+    color: #fff;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chat-header i {
+    font-size: 24px;
+}
+
+.chat-header h2 {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent for glass effect */
+    overflow-y: auto;
+}
+
+.message {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.message.bot {
+    justify-content: flex-start;
+}
+
+.message.user {
+    justify-content: flex-end;
+}
+
+.message-content {
+    max-width: 70%;
+    padding: 12px 18px;
+    border-radius: 20px;
+    font-size: 14px;
+    line-height: 1.4;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.message.bot .message-content {
+    background: rgba(255, 255, 255, 1); /* Text is now fully visible (no transparency) */
+    color: #333;
+    backdrop-filter: none; /* Removed blur for clarity */
+}
+
+.message.user .message-content {
+    background: linear-gradient(135deg, rgba(50, 50, 50, 1), rgba(200, 200, 200, 1)); /* Fully opaque */
+    color: #fff;
+    backdrop-filter: none; /* Removed blur for clarity */
+}
+
+.chat-input {
+    display: flex;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 15px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    background: transparent;
+    color: #fff;
+}
+
+.chat-input button {
+    background: linear-gradient(135deg, #000, #666);
+    color: #fff;
+    border: none;
+    padding: 0 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chat-input button i {
+    font-size: 20px;
+}
+
+.chat-input input::placeholder {
+    color: #ddd;
+}
