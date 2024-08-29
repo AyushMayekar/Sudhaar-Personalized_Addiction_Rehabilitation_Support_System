@@ -7,6 +7,7 @@ from bson import ObjectId
 from dotenv import load_dotenv
 import os
 from .serializers import UserSerializer
+from .models import User
 
 load_dotenv()
 
@@ -50,6 +51,18 @@ def SignUp(request):
             # Insert the new user document
             result = collection.insert_one(user_data)
             print("NEW USER REGISTERED")
+            user = User(username=uname)  # Create a Django User instance
+            refresh = RefreshToken.for_user(user)
+            access_token = str(refresh.access_token)
+            print("Access token generated:", access_token)
+
+            # Update the document with the JWT token
+            collection.update_one(
+                {'_id': result.inserted_id},
+                {'$set': {'jwt_token': access_token}}
+            )
+
+            # Save the user using Django's serializer
             serializer = UserSerializer(data=user_data)
             if serializer.is_valid():
                 serializer.save()
