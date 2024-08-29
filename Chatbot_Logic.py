@@ -47,15 +47,15 @@ while True:
     
     # Get model response
     response = model.generate_content(prompt)
-    # bot_response = response.text.split()
+    bot_response = response.text
     
     # Print the bot's response
-    print("Counsellor:", response.text)
+    print("Counsellor:", bot_response)
     
     # Append conversation to the log
     convo_log.append({
         "user response": user_input,
-        # "bot response": bot_response,
+        "bot response": bot_response,
         "timestamp": datetime.datetime.now()
     })
 
