@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Addiction Rehabilitation Form</title>
+    <link rel="stylesheet" href="{% static 'styles_rehab.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h1>Addiction Rehabilitation Form</h1>
+            <form method="post", action="{% url 'analytics' %}">
+                {% csrf_token %}
+                <label for="addiction-type">Select the type of addiction:</label>
+                <div class="checkbox-group" id="addiction-type">
+                    <label><input type="checkbox" name="addiction" value="smoking"> Smoking</label>
+                    <label><input type="checkbox" name="addiction" value="tobacco"> Tobacco</label>
+                    <label><input type="checkbox" name="addiction" value="alcohol"> Alcohol</label>
+                    <label><input type="checkbox" name="addiction" value="gaming"> Gaming</label>
+                    <label><input type="checkbox" name="addiction" value="gambling"> Gambling</label>
+                    <label><input type="checkbox" name="addiction" value="work"> Work</label>
+                    <label><input type="checkbox" name="addiction" value="social-media"> Social Media</label>
+                    <label><input type="checkbox" name="addiction" value="shopping"> Shopping</label>
+                </div>
+
+                <label for="start-date">Since when was this habit started?</label>
+                <input type="date" id="start-date" name="start-date" required>
+
+                <label for="frequency">How often do you engage in this habit?</label>
+                <select id="frequency" name="frequency" required>
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                    <option value="rarely">Rarely</option>
+                </select>
+
+                <label for="impact">How has this habit affected your daily life?</label>
+                <textarea id="impact" name="impact" rows="4" required></textarea>
+
+                <label for="attempts">Have you tried to quit this habit before? If so, how many times?</label>
+                <input type="number" id="attempts" name="attempts" min="0" required>
+
+                <label for="support">Do you have any support systems in place? (e.g., family, friends, support groups)</label>
+                <textarea id="support" name="support" rows="4" required></textarea>
+
+                <label for="triggers">What are your main triggers for engaging in this habit?</label>
+                <textarea id="triggers" name="triggers" rows="4" required></textarea>
+
+                <label for="current-status">What is your current status regarding this habit? (e.g., actively using, in recovery)</label>
+                <textarea id="current-status" name="current-status" rows="4" required></textarea>
+
+                <label for="goals">What are your goals for rehabilitation?</label>
+                <textarea id="goals" name="goals" rows="4" required></textarea>
+
+                <label for="other-info">Is there any other information you think is important?</label>
+                <textarea id="other-info" name="other-info" rows="4"></textarea>
+
+                <label for="emergency-contact1">Emergency Contact 1:</label>
+                <input type="tel" id="emergency-contact1" name="emergency-contact1" required>
+
+                <label for="emergency-contact2">Emergency Contact 2:</label>
+                <input type="tel" id="emergency-contact2" name="emergency-contact2" required>
+
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

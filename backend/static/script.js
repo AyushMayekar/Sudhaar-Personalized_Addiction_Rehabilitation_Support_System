@@ -1,11 +1,17 @@
-document.getElementById('send-button').addEventListener('click', sendMessage);
+document.addEventListener('DOMContentLoaded', function() {
+    sendMessage('', true); // Send an initial empty message to trigger the first LLM message
+});
 
-function sendMessage() {
+document.getElementById('send-button').addEventListener('click', function() {
+    sendMessage();
+});
+
+function sendMessage(initialMessage = '', isFirstMessage = false) {
     const userInput = document.getElementById('user-input');
-    const messageText = userInput.value.trim();
+    const messageText = initialMessage || userInput.value.trim();
     
-    if (messageText !== "") {
-        addMessageToChat('user', messageText);
+    if (messageText !== "" || isFirstMessage) {
+        if (!isFirstMessage) addMessageToChat('user', messageText);
         userInput.value = ''; // Clear input field
         
         // Send the user message to the backend and get the chatbot response
@@ -15,7 +21,7 @@ function sendMessage() {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': getCookie('csrftoken')  // Django CSRF token
             },
-            body: JSON.stringify({ message: messageText })
+            body: JSON.stringify({ message: messageText, is_first_message: isFirstMessage })
         })
         .then(response => response.json())
         .then(data => {
@@ -24,6 +30,7 @@ function sendMessage() {
         })
         .catch(error => {
             console.error('Error:', error);
+            addMessageToChat('bot', 'Sorry, an error occurred. Please try again.');
         });
     }
 }

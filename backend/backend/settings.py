@@ -49,6 +49,7 @@ SIMPLE_JWT = {
 # Application definition
 
 INSTALLED_APPS = [
+    'Rehab.apps.RehabConfig',
     'Chatbot.apps.ChatbotConfig',
     'django.contrib.admin',
     "corsheaders",
