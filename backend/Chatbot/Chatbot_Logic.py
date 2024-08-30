@@ -2,7 +2,7 @@ from pymongo import MongoClient
 import google.generativeai as genai
 from dotenv import load_dotenv
 import os
-from datetime import datetime
+
 # Loading gemini
 load_dotenv()
 gemini_api_key = os.getenv("google_gemini_api")
@@ -13,28 +13,14 @@ model = genai.GenerativeModel("gemini-pro")
 
 
 # Connecting to Mongo
-mongo_uri = os.getenv("mongo1")
-client = MongoClient(mongo_uri)
-db = client["django"]
-convo = db["users"]
+client = MongoClient("mongodb://localhost:27017/")
+db = client["employees"]
+convo = db["NFC"]
 
 
-def get_chatbot_response(user_message, request, is_first_message=False):
-
-    user_id = request.user.id if request.user.is_authenticated else None
-    if user_id is None:
-        raise ValueError("User is not authenticated")
-    
-    convo_log = convo.find_one({"user_id": user_id})
-    
-    if convo_log is None:
-        # Create a new conversation document if it does not exist
-        convo_log = {
-            "user_id": user_id,
-            "messages": [],
-            "created_at": datetime.now()
-        }
-
+def get_chatbot_response(user_message,  is_first_message=False):
+    convo_log = []
+    convo_log.clear()
     if is_first_message:
         prompt = "Ask the content given in the backticks `Hello! How can I assist you today?`"
     else:
@@ -56,17 +42,10 @@ User's Response: "{user_message}".
     response = model.generate_content(prompt)
     bot_response = response.text
 
-    # Append the new user message and bot response to the conversation log
-    convo_log['messages'].append({
+    convo_log.append({
         "user_message": user_message,
         "bot_response": bot_response
     })
-
-    # Update the conversation document with the new messages
-    convo.update_one(
-        {"user_id": user_id},
-        {"$set": convo_log},
-        upsert=True
-    )
+    convo.insert_many(convo_log)
 
     return bot_response

@@ -2,14 +2,12 @@ from django.shortcuts import render
 from pymongo import MongoClient 
 from .Rehab_logic import generate_rehabilitation_plan
 from django.http import JsonResponse
-from django.http import HttpResponseRedirect
-import os
+
 
 # Connecting to Mongo
-mongo_uri = os.getenv("mongo1")
-client = MongoClient(mongo_uri)
-db = client["django"]
-convo = db["users"]
+client = MongoClient("mongodb://localhost:27017/")
+db = client["employees"]
+convo = db["NFC"]
 
 
 # Create your views here.
@@ -34,15 +32,15 @@ def analytics(request):
         # Analytics.save()
 
         # Retrieve conversation data from MongoDB
-        if request.user.is_authenticated:
-            user_id = request.user.id
-            conversation = convo.find_one({"user_id": user_id})
-            if conversation:
-                messages = conversation['messages']
-            else:
-                messages = []
-        else:
-            return JsonResponse({"error": "User not authenticated"}, status=401)
+        all_conversations = convo.find()
+
+        # Initialize a list to hold all messages
+        all_messages = []
+
+        # Iterate over each document and extract the 'messages' field
+        for conversation in all_conversations:
+            messages = conversation.get('messages', [])
+            all_messages.extend(messages)  # Add all messages to the list
 
         # Prepare data for LLM
         form_data = {
@@ -61,9 +59,9 @@ def analytics(request):
         }
 
         # Generate a personalized rehabilitation plan using LLM
-        rehabilitation_plan = generate_rehabilitation_plan(form_data, messages)
+        rehabilitation_plan = generate_rehabilitation_plan(form_data, all_messages)
         return JsonResponse({"rehabilitation_plan": rehabilitation_plan})
         
         # redirect after submitting
-        return HttpResponseRedirect('')
+        # return HttpResponseRedirect('')
     return(render(request, 'form.html'))

@@ -1,10 +1,7 @@
+# models.py
 from django.db import models
-from django.contrib.auth.models import User
 
-class Clients(models.Model):
-    name=models.CharField(max_length=100)
-    email=models.EmailField(max_length=100)
-    password = models.CharField(max_length=100)
-
-    def _str_(self):
-        return self.name 
+class User(models.Model):
+    username = models.CharField(max_length=150, unique=True)
+    email = models.EmailField(unique=True)
+    password = models.CharField(max_length=128)
