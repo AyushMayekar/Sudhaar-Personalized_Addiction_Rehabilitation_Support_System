@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   {% load static %}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Form | SUDHAAR</title>
+  <title>Login Form - SUDHAAR</title>
   <link rel="stylesheet">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <style>*{
@@ -114,7 +115,7 @@
 </head>
 <body>
   <div class="wrapper">
-    <form action="/api/user/login/" method="POST">
+    <form action="/login" method="POST">
       {% csrf_token %}
       <h1>Login</h1>
       <div class="input-box">
@@ -131,9 +132,28 @@
       </div>
       <button type="submit" class="btn">Login</button>
       <div class="register-link">
-        <p>Dont have an account? <a href="http://127.0.0.1:8000/api/user/signup/">Register</a></p>
+        <p>Dont have an account? <a href="http://127.0.0.1:8000/signup">Register</a></p>
       </div>
     </form>
   </div>
+  <script>
+    {% if logerror %}
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Wrong Password!',
+        confirmButtonColor: '#ff4c4c'
+    });
+    {% endif %}
+
+    {% if Nouser %}
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'User not Signed In!!',
+        confirmButtonColor: '#ff4c4c'
+    });
+    {% endif %}
+</script>
 </body>
 </html>

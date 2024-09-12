@@ -15,6 +15,7 @@ from datetime import timedelta
 from dotenv import load_dotenv
 import os
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -49,6 +50,8 @@ SIMPLE_JWT = {
 # Application definition
 
 INSTALLED_APPS = [
+    'Info.apps.InfoConfig',
+    'emergency.apps.EmergencyConfig',
     'Rehab.apps.RehabConfig',
     'Chatbot.apps.ChatbotConfig',
     'django.contrib.admin',
@@ -154,3 +157,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWS_CREDENTIALS = True
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] 
+
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:5500',  # Adjust this if your React app runs on a different port
+]
+

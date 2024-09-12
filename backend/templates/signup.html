@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   {% load static %}
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign Up | SUDHAAR</title>
+  <title>Sign Up - SUDHAAR</title>
   <link rel="stylesheet">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <style> *{
@@ -105,7 +106,7 @@
 </head>
 <body>
   <div class="wrapper">
-    <form action="8000/api/login/" method="POST">
+    <form action="/signup" method="POST">
       {% csrf_token %}
       <h1>Sign Up</h1>
       <div class="input-box">
@@ -126,9 +127,28 @@
       </div>
       <button type="submit" class="btn">Sign Up</button>
       <div class="login-link">
-        <p>Already have an account? <a href="http://127.0.0.1:8000/api/login/">Login</a></p>
+        <p>Already have an account? <a href="http://127.0.0.1:8000/login">Login</a></p>
       </div>
     </form>
   </div>
+  <script>
+    {% if password_error %}
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Passwords do not match!',
+        confirmButtonColor: '#ff4c4c'
+    });
+    {% endif %}
+
+    {% if existing %}
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Username already exists!!, please use a Unique Username',
+        confirmButtonColor: '#ff4c4c'
+    });
+    {% endif %}
+</script>
 </body>
 </html>
