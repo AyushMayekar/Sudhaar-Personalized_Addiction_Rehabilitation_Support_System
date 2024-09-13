@@ -30,7 +30,7 @@ def generate_rehabilitation_plan(form_data, conversation_messages):
     - Emergency Contacts: {form_data['emergency_contact1']}, {form_data['emergency_contact2']}
     
     And the conversation history:
-    {''.join([f"User: {msg['text']}\n" if msg['sender'] == 'user' else f"Bot: {msg['text']}\n" for msg in conversation_messages])}
+    {conversation_messages}
     
     Provide a detailed personalized rehabilitation plan.
     """

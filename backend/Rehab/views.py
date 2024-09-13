@@ -1,17 +1,34 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from pymongo import MongoClient 
 from .Rehab_logic import generate_rehabilitation_plan
-from django.http import JsonResponse
+from django.http import HttpResponse
+import os
 
 
 # Connecting to Mongo
-client = MongoClient("mongodb://localhost:27017/")
-db = client["employees"]
-convo = db["NFC"]
+Mongo_url = os.getenv('mongo')
+client = MongoClient(Mongo_url)
+db = client["NFC"]
+convo = db["USER DATA"]
 
+def format_conversation_log(conversation_log):
+    formatted_log = ''
+    
+    for entry in conversation_log:
+        user_message = entry.get('user_message', '').strip()
+        bot_response = entry.get('bot_response', '').strip()
+        
+        if user_message:
+            formatted_log += f"User: {user_message}\n"
+        if bot_response:
+            formatted_log += f"Bot: {bot_response}\n"
+    
+    return formatted_log
 
 # Create your views here.
 def analytics(request):
+    if 'userid' in request.session:
+            user_id = request.session['userid']
     if request.method == "POST":
         addiction = request.POST.getlist("addiction")
         start_date = request.POST.get("start-date")
@@ -25,23 +42,11 @@ def analytics(request):
         other_info = request.POST.get("other-info")
         emergency_contact1 = request.POST.get("emergency-contact1")
         emergency_contact2 = request.POST.get("emergency-contact2")
-        # Analytics = analytics(name = name, start_date = start_date, frequency = frequency,
-        #                         impact = impact, attempts = attempts, support = support, triggers = triggers, 
-        #                         current_status = current_status, goals= goals, other_info = other_info,
-        #                         emergency_contact1 = emergency_contact1, emergency_contact2 = emergency_contact2)
-        # Analytics.save()
 
         # Retrieve conversation data from MongoDB
-        all_conversations = convo.find()
-
-        # Initialize a list to hold all messages
-        all_messages = []
-
-        # Iterate over each document and extract the 'messages' field
-        for conversation in all_conversations:
-            messages = conversation.get('messages', [])
-            all_messages.extend(messages)  # Add all messages to the list
-
+        all_conversations = convo.find_one({'userid': user_id},
+                                            {'conversation_log': True, '_id' : False})
+        Chat = format_conversation_log(all_conversations['conversation_log'])
         # Prepare data for LLM
         form_data = {
             "addiction": addiction,
@@ -58,10 +63,18 @@ def analytics(request):
             "emergency_contact2": emergency_contact2
         }
 
+        convo.update_one(
+        {'userid': user_id},  
+        {'$set': {'form_data' : form_data}}   
+            )
+
         # Generate a personalized rehabilitation plan using LLM
-        rehabilitation_plan = generate_rehabilitation_plan(form_data, all_messages)
-        return JsonResponse({"rehabilitation_plan": rehabilitation_plan})
+        rehabilitation_plan = generate_rehabilitation_plan(form_data, Chat)
+        convo.update_one(
+        {'userid': user_id},  
+        {'$set': {'Rehab_Plan' : rehabilitation_plan}}   
+            )
+        return(render(request, 'form.html'))
         
         # redirect after submitting
-        # return HttpResponseRedirect('')
     return(render(request, 'form.html'))

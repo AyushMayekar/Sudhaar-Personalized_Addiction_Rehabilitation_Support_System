@@ -12,5 +12,7 @@ def chat_view(request):
     elif request.method == "POST":
         data = json.loads(request.body)
         user_message = data.get("message")
-        bot_response = get_chatbot_response(user_message)
+        if 'userid' in request.session:
+            user_id = request.session['userid']
+        bot_response = get_chatbot_response(user_message, user_id)
         return JsonResponse({"response": bot_response})

@@ -6,9 +6,14 @@ from django.http import JsonResponse
 from pymongo import MongoClient
 import bcrypt
 import random
+from dotenv import load_dotenv
+import os
 
+
+load_dotenv()
 # Connecting Mongo
-client = MongoClient(r'mongodb+srv://ayush224947101:AYUSH21@cluster0.mq8dx3f.mongodb.net/NFC')
+Mongo_url = os.getenv('mongo')
+client = MongoClient(Mongo_url)
 db = client['NFC']
 collection = db['USER DATA']
 
@@ -54,7 +59,7 @@ def userlogin(request):
             if bcrypt.checkpw(password.encode('utf-8'), user['password']):
                 request.session['is_logged_in'] = True
                 request.session['username'] = username
-                request.session['user_id'] = user.get('user_id')  
+                request.session['userid'] = user.get('userid')  
                 return redirect('http://127.0.0.1:8000/')
             else:
                 # Invalid password

@@ -13,18 +13,23 @@ model = genai.GenerativeModel("gemini-pro")
 
 
 # Connecting to Mongo
-client = MongoClient("mongodb://localhost:27017/")
-db = client["employees"]
-convo = db["NFC"]
+Mongo_url = os.getenv('mongo')
+client = MongoClient(Mongo_url)
+db = client["NFC"]
+convo = db["USER DATA"]
 
 
-def get_chatbot_response(user_message,  is_first_message=False):
-    convo_log = []
-    convo_log.clear()
+def get_chatbot_response(user_message, user_id,  is_first_message=False):
+    user_data = convo.find_one({'userid': user_id})
+    if 'conversation_log' not in user_data:
+        convo.update_one(
+        {'userid': user_id},  
+        {'$set': {'conversation_log': []}}  
+        )
+    convo_log = user_data.get('conversation_log', [])
     if is_first_message:
         prompt = "Ask the content given in the backticks `Hello! How can I assist you today?`"
     else:
-        convo_log.clear()
         prompt = f"""Role: "You are a compassionate and skilled counselor.
 
 Objective: Engage in a thoughtful and supportive conversation with the user. Guide them toward improvement based on their responses. Follow the 6 rules outlined below.
@@ -46,6 +51,10 @@ User's Response: "{user_message}".
         "user_message": user_message,
         "bot_response": bot_response
     })
-    convo.insert_many(convo_log)
+    print(convo_log)
+    convo.update_one(
+        {'userid': user_id},
+        {'$set': {'conversation_log': convo_log}}
+    )
 
     return bot_response
