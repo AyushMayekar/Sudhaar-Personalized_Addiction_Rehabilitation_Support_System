@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbot UI</title>
@@ -24,5 +25,15 @@
     </div>
 
     <script src="{% static 'script.js' %}"></script>
+    <script>
+        {% if nouser %}
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'User not logged In!!! \n Please Login!!!',
+            confirmButtonColor: '#ff4c4c'
+        });
+        {% endif %}
+    </script>
 </body>
 </html>

@@ -119,7 +119,7 @@
       {% csrf_token %}
       <h1>Login</h1>
       <div class="input-box">
-        <input type="text" placeholder="Username" name="username" required>
+        <input type="text" placeholder="Full-Name(Name_Surname)" name="username" required>
         <i class='bx bxs-user'></i>
       </div>
       <div class="input-box">
@@ -154,6 +154,18 @@
         confirmButtonColor: '#ff4c4c'
     });
     {% endif %}
-</script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('nouser') === 'true') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'User not logged in!! \n Please login!!',
+                confirmButtonColor: '#ff4c4c'
+            });
+        }
+    });
+  </script>
 </body>
 </html>

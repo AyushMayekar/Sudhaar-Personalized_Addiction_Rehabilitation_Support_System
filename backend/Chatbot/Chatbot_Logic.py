@@ -51,7 +51,6 @@ User's Response: "{user_message}".
         "user_message": user_message,
         "bot_response": bot_response
     })
-    print(convo_log)
     convo.update_one(
         {'userid': user_id},
         {'$set': {'conversation_log': convo_log}}

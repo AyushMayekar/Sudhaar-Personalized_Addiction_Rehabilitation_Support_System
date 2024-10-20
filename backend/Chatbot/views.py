@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponseRedirect
 import json
 from django.http import JsonResponse
 from .Chatbot_Logic import get_chatbot_response
@@ -7,12 +7,16 @@ from .Chatbot_Logic import get_chatbot_response
 
 def chat_view(request):
     if request.method == "GET":
-    # Renders the chat interface
-        return render(request, 'indexcb.html')
+        if 'userid' in request.session:
+            return render(request, 'indexcb.html')
+        else :
+            return HttpResponseRedirect('http://127.0.0.1:8000/login?nouser=true')
     elif request.method == "POST":
-        data = json.loads(request.body)
-        user_message = data.get("message")
         if 'userid' in request.session:
             user_id = request.session['userid']
-        bot_response = get_chatbot_response(user_message, user_id)
-        return JsonResponse({"response": bot_response})
+            data = json.loads(request.body)
+            user_message = data.get("message")
+            bot_response = get_chatbot_response(user_message, user_id)
+            return JsonResponse({"response": bot_response})
+        else :
+            return HttpResponseRedirect('http://127.0.0.1:8000/login?nouser=true')
