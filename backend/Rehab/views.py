@@ -45,7 +45,10 @@ def analytics(request):
         # Retrieve conversation data from MongoDB
             all_conversations = convo.find_one({'userid': user_id},
                                             {'conversation_log': True, '_id' : False})
-            Chat = format_conversation_log(all_conversations['conversation_log'])
+            if all_conversations and 'conversation_log' in all_conversations:
+                Chat = format_conversation_log(all_conversations['conversation_log'])
+            else:
+                Chat =""    
         # Prepare data for LLM
             form_data = {
             "addiction": addiction,
