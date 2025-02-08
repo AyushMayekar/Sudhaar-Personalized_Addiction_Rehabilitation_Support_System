@@ -1,5 +1,12 @@
 # Environment variable file
 .env
 .venv
-/__pycache__/
+__pycache__/
+*/__pycache__/
 .vscode/
+*/__migrations__/
+/__migrations__/
+django
+alert.py 
+db.sqlite3
+package-lock.json
