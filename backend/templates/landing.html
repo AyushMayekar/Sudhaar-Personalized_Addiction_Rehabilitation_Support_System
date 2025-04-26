@@ -81,7 +81,7 @@
     });
     {% endif %}
 
-    {% comment %} function sendEmergencyMessage() {
+    function sendEmergencyMessage() {
         fetch('/emer/sem/', {  
         method: 'POST',
         headers: {
@@ -95,7 +95,7 @@
         .catch(error => {
         console.error('Error:', error);
         });
-    } {% endcomment %}
+    } 
 
 
 // CSRF token helper function

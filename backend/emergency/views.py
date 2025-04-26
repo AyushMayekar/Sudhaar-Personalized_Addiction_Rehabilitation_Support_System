@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponseRedirect
+from django.shortcuts import HttpResponseRedirect
 from django.http import JsonResponse
 from twilio.rest import Client
 from django.views.decorators.csrf import csrf_exempt
@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
+twilio_number = os.getenv('twilio_number')
 @csrf_exempt
 def send_emergency_message(request):
     if 'userid' in request.session:
@@ -16,12 +17,12 @@ def send_emergency_message(request):
             print(account_sid, auth_token)
 
             message = client.messages.create(
+                from_= +13374694211,
                 body="Urgent: Please contact [Emergency Services Number] immediately. [Patient's Name] is in a critical situation at [Location], experiencing [brief description of the emergency, e.g., severe withdrawal symptoms/unconsciousness]. Your immediate presence and assistance are needed. For more details, please call [Your Phone Number].",
-                from_='+15108764218',
-                to='+918675153773'
+                to='+919892496621'
             )
 
-            return JsonResponse({'sid': message.sid})
+            return JsonResponse({'Message sent - sid': message.sid})
         else:
             return JsonResponse({'error': 'Invalid request method'}, status=405)
     else :

@@ -9,7 +9,7 @@ gemini_api_key = os.getenv("google_gemini_api")
 if not gemini_api_key:
     raise ValueError("GEMINI_API_KEY environment variable not set")
 genai.configure(api_key=gemini_api_key)
-model = genai.GenerativeModel("gemini-pro")
+model = genai.GenerativeModel("gemini-1.5-flash")
 
 
 # Connecting to Mongo
