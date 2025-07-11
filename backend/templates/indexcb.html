@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot UI</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles_cb.css' %}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <i class='bx bxs-chat'></i>
+            <h2>Talk with us</h2>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <!-- Messages will be dynamically added here -->
+        </div>
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Type a message...">
+            <button id="send-button"><i class='bx bxs-send'></i></button>
+        </div>
+    </div>
+
+    <script src="{% static 'script.js' %}"></script>
+    <script>
+        {% if nouser %}
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'User not logged In!!! \n Please Login!!!',
+            confirmButtonColor: '#ff4c4c'
+        });
+        {% endif %}
+    </script>
+</body>
+</html>

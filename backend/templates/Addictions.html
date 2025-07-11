@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Addiction</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'addictions.css' %}">
+    <style>
+
+        p {
+          font-size: 18px;
+        }
+      </style>
+</head>
+<body>
+    <!-- slider -->
+
+<div class="slider">
+         <style>
+            
+            .content pre:first-of-type {
+                font-family: 'Poppins', sans-serif; /* Change to desired font style */
+                font-size: px; /* Change font size for addiction names */
+                font-weight: bold; /* Make the addiction name bold */
+                margin-top: -100px;
+                margin-bottom: -20px; /* Reduce the space below the addiction name */
+            }
+                /* Add CSS directly into the HTML */
+                .content pre:first-of-type {
+                    font-family: 'Poppins', sans-serif; /* Change to desired font style */
+                    font-size: 100px; /* Change font size for addiction names */
+                    margin-left: -80px;
+                    font-weight: bold; /* Make the addiction name bold */
+                }
+        
+                .content em {
+                    font-family: 'Poppins', sans-serif; /* Change to desired font style */
+                    font-size: 30px; /* Slightly increase the description font size */
+                    margin-left: -250px; /* Adjust this value to shift the description to the left */
+                    display: block; /* Ensure proper alignment of the margin */
+                }
+         </style>
+        <!-- list Items -->
+        <div class="list">
+            <div class="item active">
+                <img src={% static 'images/alcohol.png' %}>
+                <div class="content">
+                    <pre>Alcohol Addiction</pre>
+                    <pre>
+                        Alcohol addiction is a chronic condition characterized by an inability to control or
+                        stop drinking despite its harmful consequences. It often leads to both physical
+                        dependence and severe emotional distress. Individuals may turn to alcohol to cope 
+                        with stress, anxiety, or depression, finding temporary relief in its effects.  Over time, the brain's chemistry changes, leading to increased 
+                        tolerance and the need for more alcohol to achieve the same effects. This cycle can 
+                        escalate, causing serious health issues like liver disease and cardiovascular problems.
+                        Treatment typically involves a combination of detoxification, counseling, and support 
+                        groups like Alcoholics Anonymous. Cognitive-behavioral therapy and medications can also 
+                        help reduce cravings and manage withdrawal symptoms.
+                   </pre>
+                </div>
+            </div>
+            <div class="item">
+                <img src="{% static 'images/Drug.png' %}">
+                <div class="content">
+                    <pre>Drug Addiction</pre>
+                    <pre>
+                        Drug addiction is a complex brain disorder where individuals compulsively seek out and use drugs,
+                        despite negative consequences. It alters brain function and behavior, leading to a loss of self-control.
+                        People may start using drugs to experience euphoria, escape reality, or cope with underlying 
+                        psychological issues. Genetic factors and environmental influences, such as peer pressure and trauma,
+                        can increase the risk of addiction. Drugs affect the brain's reward system by flooding it with dopamine, 
+                        creating pleasurable feelings that reinforce the behavior. Over time, this rewiring of the brain reduces 
+                        the ability to experience pleasure without the drug.Effective treatment often includes behavioral therapy, 
+                        medication-assisted treatment, and support from recovery communities. Addressing co-occurring mental health 
+                        disorders is also crucial for long-term recovery.
+                    </pre>
+                </div>
+            </div>
+            <div class="item">
+                <img src="{% static 'images/Gambling.png' %}">
+                <div class="content">
+                    <pre>Gambling Addiction</pre>
+                    <pre>
+                        Gambling addiction is a compulsive urge to gamble despite harmful negative consequences or a desire to stop. 
+                        It can severely impact one's finances, relationships, and mental health. The thrill of winning, combined with 
+                        the allure of potential financial gain, can trigger gambling addiction. Some individuals are driven by a need 
+                        to escape stress or boredom, while others may have a predisposition to addictive behaviors. Gambling stimulates 
+                        the brain’s reward system much like drugs or alcohol, leading to increased dopamine release. Over time, the need 
+                        to gamble intensifies as the person chases losses and tries to recreate past wins. Treatment options include 
+                        cognitive-behavioral therapy, which helps change gambling behaviors and thought patterns, and support groups like 
+                        Gamblers Anonymous. Financial counseling and family therapy can also provide crucial support.
+                    </pre>
+                </div>
+            </div>
+            <div class="item active">
+                <img src="{% static 'images/food.png' %}">
+                <div class="content">
+                    <pre>Food Addiction</pre>
+                    <pre>
+                
+                        Food addiction is characterized by an overwhelming craving for certain foods and an inability to control eating, 
+                        similar to drug dependency. This can lead to obesity and other health issues. Emotional stress, boredom, or trauma 
+                        can drive individuals to use food as a comfort mechanism, leading to overeating and dependency. Highly palatable 
+                        foods high in sugar, fat, and salt are especially addictive due to their effects on the brain’s reward system.
+                        Consuming highly addictive foods triggers the release of dopamine in the brain, creating a cycle of cravings and 
+                        binge eating. Over time, the brain's ability to signal fullness and satisfaction diminishes, leading to overeating.
+                        Treatment typically involves a combination of behavioral therapies, nutritional counseling, and support groups like 
+                        Overeaters Anonymous. Mindful eating practices and addressing underlying emotional issues are also beneficial.
+                    </pre>
+                </div>
+            </div>
+            <div class="item active">
+                <img src="{% static 'images/shopping.png' %}">
+                <div class="content">
+                    <pre>Shopping Addiction</pre>
+                    <pre>
+                        Shopping addiction, or compulsive buying disorder, is characterized by an uncontrollable urge to shop, often leading 
+                        to financial and emotional distress. It involves buying unnecessary items to achieve emotional satisfaction. Individuals 
+                        may turn to shopping as a way to cope with negative emotions, boost self-esteem, or fill a void in their lives. The act 
+                        of purchasing can provide a temporary sense of pleasure or control. The anticipation of buying something new releases 
+                        dopamine, providing a brief emotional high. This leads to a cycle of compulsive buying to recapture that high, often 
+                        resulting in financial problems and strained relationships. Cognitive-behavioral therapy can help individuals recognize 
+                        and change the thought patterns that drive compulsive shopping. Support groups and financial counseling can also provide 
+                        guidance and accountability.
+
+                    </pre>
+                </div>
+            </div>
+            <div class="item active">
+                <img src="{% static 'images/Social media 2.png' %}">
+                <div class="content">
+                    <pre>Social Media Addiction</pre>
+                    <pre>
+                
+                        Social media addiction involves the excessive use of social networking sites to the detriment of one’s real-life 
+                        relationships, work, or studies. It can lead to anxiety, depression, and a distorted self-image. The need for social 
+                        validation and instant gratification drives people to spend excessive time on social media platforms. FOMO 
+                        (fear of missing out) and the desire for constant connectivity also contribute to addiction. Social media platforms 
+                        are designed to be addictive, using algorithms that encourage frequent engagement and dopamine release in response to 
+                        likes, shares, and comments. Over time, this can lead to dependency and reduced real-world social interaction.Setting 
+                        time limits on social media use, turning off notifications, and engaging in offline activities can help reduce dependency. 
+                        Therapy can assist in addressing underlying issues and developing healthier habits.
+
+                    </pre>
+                </div>
+            </div>
+            <div class="item active">
+                <img src="{% static 'images/Tobacco.png' %}">
+                <div class="content">
+                    <pre>Tobacco Addiction</pre>
+                    <pre>
+                        Tobacco addiction, primarily from smoking cigarettes, is a dependency on nicotine, a highly addictive substance. It is a 
+                        major cause of preventable diseases, including cancer and heart disease. The addiction starts with the use of nicotine to 
+                        relax or enhance concentration, often influenced by peer pressure or stress. Over time, the body becomes dependent on 
+                        nicotine’s effects. Nicotine alters brain chemistry, increasing dopamine levels, which reinforces the behavior of smoking. 
+                        This leads to tolerance and withdrawal symptoms when trying to quit, making cessation difficult. Nicotine replacement therapies, 
+                        prescription medications, and behavioral support can significantly increase the chances of quitting successfully. Support groups 
+                        and counseling are also effective in managing cravings and preventing relapse.
+                    </pre>
+                </div>
+            </div>
+            <div class="item active">
+                <img src="{% static 'images/work.png' %}">
+                <div class="content">
+                    <pre>Work Addiction</pre>
+                    <pre>
+                        Work addiction, or workaholism, involves an obsessive need to work, often at the expense of personal relationships, health, and 
+                        leisure time. It is driven by a compulsion rather than financial necessity. Individuals may develop a work addiction due to a need 
+                        for achievement, recognition, or to escape personal issues. Cultural factors and high job demands can also contribute to excessive 
+                        work habits.  The adrenaline and stress associated with constant work can become addictive, leading to burnout and a neglect of other 
+                        important areas of life. This creates a cycle where the individual feels the need to work even more to cope. Treatment often includes 
+                        cognitive-behavioral therapy to address underlying issues and create a healthier work-life balance. Setting boundaries, taking breaks, 
+                        and engaging in leisure activities are also important steps in recovery.
+                    </pre>
+                </div>
+            </div>
+            <div class="item active">
+                <img src="{% static 'images/caffeine-transformed.jpeg' %}">
+                <div class="content">
+                    <pre>Caffeine Addiction</pre>
+                    <pre>
+                        Caffeine addiction is characterized by a dependence on caffeine to function normally, often leading to increased tolerance and withdrawal 
+                        symptoms like headaches and irritability. Many people rely on caffeine for its stimulating effects to boost energy and improve focus. Over 
+                        time, regular consumption can lead to physical dependence and cravings. Caffeine increases adrenaline production and blocks adenosine, a 
+                        brain chemical that promotes sleep. This disrupts normal sleep patterns and leads to a cycle of dependence to maintain alertness. Gradually 
+                        reducing caffeine intake, rather than quitting abruptly, can help minimize withdrawal symptoms. Replacing caffeinated beverages with 
+                        decaffeinated versions or herbal teas can also assist in reducing dependence.
+                    </pre>
+                </div>
+            </div>
+            <div class="item active">
+                <img src="{% static 'images/gaming.png' %}">
+                <div class="content">
+                    <pre>Gaming Addiction</pre>
+                    <pre>
+                        Gaming addiction is a behavioral disorder characterized by excessive or compulsive use of video games, often leading to negative consequences 
+                        in daily life, such as academic failure or social isolation. The immersive nature of video games, along with the instant gratification and reward 
+                        systems they offer, can make them highly addictive. People may turn to gaming to escape reality, manage stress, or seek social connection. Gaming 
+                        stimulates the brain's reward system, releasing dopamine and creating a sense of pleasure and achievement. Over time, this can lead to increased 
+                        tolerance and a need to play more frequently and for longer durations. Limiting screen time, setting specific gaming hours, and engaging in alternative 
+                        activities can help break the cycle of addiction. Professional help, such as cognitive-behavioral therapy, can also address underlying issues and develop 
+                        healthier coping strategies.
+                    </pre> 
+                </div>
+            </div>
+        </div>
+        <!-- button arrows -->
+        <div class="arrows">
+            <button id="prev"><</button>
+            <button id="next">></button>
+        </div>
+       
+<!-- thumbnail -->
+<div class="thumbnail">
+    <div class="item active">
+        <img src="{% static 'images/alcohol.png' %}">
+        <div class="content">
+            Alcohol Addiction
+        </div>
+    </div>
+    <div class="item active">
+        <img src="{% static 'images/Drug.png' %}">
+        <div class="content">
+            Drug Addiction
+        </div>
+    </div>
+    <div class="item active">
+        <img src="{% static 'images/Gambling.png' %}">
+        <div class="content">
+            Gambling Addiction
+        </div>
+    </div>
+    <div class="item active">
+        <img src="{% static 'images/food.png' %}">
+        <div class="content">
+            Food Addiction
+        </div>
+    </div>
+    <div class="item active">
+        <img src="{% static 'images/shopping.png' %}">
+        <div class="content">
+            Shopping Addiction
+        </div>
+    </div>
+    <div class="item active">
+        <img src="{% static 'images/Social media 2.png' %}">
+        <div class="content">
+            Social Media Addiction
+        </div>
+    </div>
+    <div class="item active">
+        <img src="{% static 'images/Tobacco.png' %}">
+        <div class="content">
+            Tobacco Addiction
+        </div>
+    </div>
+    <div class="item active">
+        <img src="{% static 'images/work.png' %}">
+        <div class="content">
+            Work Addiction
+        </div>
+    </div>
+    <div class="item active">
+        <img src="{% static 'images/caffeine-transformed.jpeg' %}">
+        <div class="content">
+            Caffeine Addiction
+        </div>
+    </div>
+    <div class="item active">
+        <img src="{% static 'images/gaming.png' %}">
+        <div class="content">
+            Gaming Addiction
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let currentIndex = 0;
+        const slides = document.querySelectorAll('.slider .list .item');
+        const thumbnails = document.querySelectorAll('.thumbnail .item');
+        const totalSlides = slides.length;
+        let slideInterval;
+    
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                slide.style.opacity = 0; // Ensure slides are hidden
+                if (i === index) {
+                    slide.classList.add('active');
+                    slide.style.opacity = 1; // Show the active slide
+                }
+            });
+            thumbnails.forEach((thumb, i) => {
+                thumb.classList.remove('active');
+                if (i === index) {
+                    thumb.classList.add('active');
+                }
+            });
+        }
+    
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            showSlide(currentIndex);
+        }
+    
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+            showSlide(currentIndex);
+        }
+    
+        // Event listeners for buttons
+        document.getElementById('next').addEventListener('click', function() {
+            nextSlide();
+            resetInterval();
+        });
+    
+        document.getElementById('prev').addEventListener('click', function() {
+            prevSlide();
+            resetInterval();
+        });
+    
+        // Event listeners for thumbnail clicks
+        thumbnails.forEach((thumb, i) => {
+            thumb.addEventListener('click', function() {
+                currentIndex = i;
+                showSlide(currentIndex);
+                resetInterval();
+            });
+        });
+    
+        // Function to start the automatic slide show
+        function startInterval() {
+            slideInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+        }
+    
+        // Function to reset the slide interval
+        function resetInterval() {
+            clearInterval(slideInterval);
+            startInterval();
+        }
+    
+        // Initialize the slider
+        showSlide(currentIndex);
+        startInterval(); // Start automatic slide show
+    });
+    
+      
+    
+</script>
+
+    <script src="app.js"></script>
+</body>
+</html>
