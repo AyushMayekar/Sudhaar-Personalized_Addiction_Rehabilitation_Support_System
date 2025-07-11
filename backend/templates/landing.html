@@ -20,7 +20,7 @@
             <button class="close-button" id="close-button">×</button>
             <ul>
                 <li><a href="Rehab/analytics/">Get Personalized Rehabilitation Plans</a></li>
-                <li><a href="#talk-to-experts">Community Chat</a></li>
+                <li><a href="community">Community Chat</a></li>
                 <li><a href="chat/">Talk with Us</a></li>
                 <li><a href="/pro">Progress</a></li>
                 <li><a href="/addiction">Types of Addictions</a></li>
@@ -28,8 +28,7 @@
                 <li><a href="/abs">About Us</a></li>
                 <li><a href="login">Login</a></li>
                 <li><a href="signup">Sign Up</a></li>
-            
-
+                <li><a href="javascript:void(0);" onclick="Logout()">Logout</a></li>
             </ul>
         </div>
     </div>
@@ -168,6 +167,21 @@ function getCookie(name) {
                 slider.classList.remove('paused');
             }
         });
+
+        function Logout() {
+            fetch('/userlogout', {
+                method: 'GET',
+                credentials: 'same-origin' 
+            })
+            .then(() => {
+                window.location.href = '/login';  
+            })
+            .catch((error) => {
+                console.error("Logout failed:", error);
+                alert("Something went wrong while logging out.");
+            });
+        }
+
     </script>
 
     

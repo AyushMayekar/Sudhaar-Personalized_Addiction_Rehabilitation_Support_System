@@ -12,4 +12,5 @@ urlpatterns = [
     path ('', include('Info.urls')),
     path('Rehab/', include('Rehab.urls')),
     path('emer/', include('emergency.urls')),
+    path('',include('Community.urls')),
 ]

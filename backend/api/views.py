@@ -1,13 +1,16 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.http import JsonResponse
 from pymongo import MongoClient
 import bcrypt
 import random
+import json
 from dotenv import load_dotenv
 import os
+from django.contrib.auth.hashers import make_password
 
 
 load_dotenv()
@@ -72,5 +75,34 @@ def userlogin(request):
     return render(request, 'login.html')
 
 def userlogout(request):
+    request.session.flush() 
     logout(request)
     return redirect('/login')
+
+@csrf_exempt
+def forgot_password(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        email = data.get("email")
+
+        user = collection.find_one({ "email": email })
+        return JsonResponse({ "exists": user is not None })
+
+@csrf_exempt
+def reset_password(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        email = data.get("email")
+        new_password = data.get("new_password")
+
+        hashed_password = make_password(new_password)
+
+        result = collection.update_one(
+            { "email": email },
+            { "$set": { "password": hashed_password } }
+        )
+
+        if result.modified_count == 1:
+            return JsonResponse({ "success": True })
+        else:
+            return JsonResponse({ "success": False, "message": "Failed to update password" })

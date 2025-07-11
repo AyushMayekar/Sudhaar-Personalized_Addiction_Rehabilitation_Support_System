@@ -1,6 +1,8 @@
 from django.shortcuts import render,HttpResponseRedirect
 from pymongo import MongoClient
 import os
+from django.http import JsonResponse
+import re
 
 # Connecting to Mongo
 Mongo_url = os.getenv('mongo')
@@ -20,17 +22,60 @@ def Aboutus(request):
     return render(request, 'Aboutus.html')
 
 
+
+# Utility function to clean and format LLM response
+def format_raw_plan(plan):
+    sections = {}
+    current_section = "General"
+    buffer = []
+
+    for line in plan.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+
+        # Detect section headers
+        match = re.match(r"\*\*?(Phase\s+\d+.*?|Additional Components|Goals|Support System|Triggers|Other Information|Evaluation)\**?:?", line, re.IGNORECASE)
+        if match:
+            if buffer:
+                sections[current_section] = buffer
+                buffer = []
+            current_section = match.group(1).strip()
+            continue
+
+        # Remove bullets, markdown, leading garbage
+        cleaned = re.sub(r"^[\*\-•\d\.\s]+", '', line)        # remove bullets
+        cleaned = re.sub(r'\*\*+', '', cleaned)               # remove **
+        cleaned = re.sub(r'\s*:\s*$', '', cleaned)            # remove trailing :
+        cleaned = cleaned.strip()
+
+        if cleaned:
+            buffer.append(cleaned)
+
+    if buffer:
+        sections[current_section] = buffer
+
+    return sections
+
+# API to get structured rehab plan
+def get_rehabilitation_plan_api(request):
+    if 'userid' in request.session: 
+        user_id = request.session['userid']
+        user_data = convo.find_one({'userid': user_id}, {'Rehab_Plan': True, '_id': False})
+        if not user_data or 'Rehab_Plan' not in user_data:
+            return JsonResponse({'error': 'Rehabilitation plan not found.'}, status=404)
+
+        raw_plan = user_data['Rehab_Plan']
+        structured_plan = format_raw_plan(raw_plan)
+
+        return JsonResponse({'rehab_plan': structured_plan})
+    
+    return JsonResponse({'error': 'Unauthorized'}, status=401)
+
+
 def progress(request):
     if 'userid' in request.session:
-            user_id = request.session['userid']
-            Rehab = convo.find_one({'userid':user_id}, {'Rehab_Plan': True, '_id': False})
-    # Extract the rehabilitation plan
-            rehab_plan = Rehab.get('Rehab_Plan', 'No rehabilitation plan available.')
-        
-    # Prepare the context for rendering the template
-            context = {
-                'rehab_plan': rehab_plan
-                }
-            return render(request, 'progress.html', context)
+        user_id = request.session['userid']
+        return render(request, 'progress.html')  
     else:
-            return HttpResponseRedirect('http://127.0.0.1:8000/login?nouser=true')
+        return HttpResponseRedirect('http://127.0.0.1:8000/login?nouser=true')

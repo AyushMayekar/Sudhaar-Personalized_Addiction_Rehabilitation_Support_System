@@ -50,6 +50,7 @@ SIMPLE_JWT = {
 # Application definition
 
 INSTALLED_APPS = [
+    'Community.apps.CommunityConfig',
     'Info.apps.InfoConfig',
     'emergency.apps.EmergencyConfig',
     'Rehab.apps.RehabConfig',

@@ -123,13 +123,13 @@
         <i class='bx bxs-user'></i>
       </div>
       <div class="input-box">
-        <input type="password" placeholder="Password" name="password" required>
-        <i class='bx bxs-lock-alt' ></i>
-      </div>
+        <input type="password" placeholder="Password" name="password" id="password" required>
+        <i class='bx bx-hide' id="togglePassword" style="cursor: pointer;"></i>
+      </div>           
       <div class="remember-forgot">
-        <label><input type="checkbox">Remember Me</label>
-        <a href="#">Forgot Password</a>
-      </div>
+        <label><input type="checkbox" id="rememberMe"> Remember Me</label>
+        <a href="#" onclick="showForgotPassword()">Forgot Password?</a>
+      </div>      
       <button type="submit" class="btn">Login</button>
       <div class="register-link">
         <p>Dont have an account? <a href="http://127.0.0.1:8000/signup">Register</a></p>
@@ -166,6 +166,157 @@
             });
         }
     });
+
+    const togglePassword = document.getElementById("togglePassword");
+    const passwordField = document.getElementById("password");
+  
+    togglePassword.addEventListener("click", function () {
+      const isPasswordVisible = passwordField.getAttribute("type") === "text";
+      
+      // Toggle input type
+      passwordField.setAttribute("type", isPasswordVisible ? "password" : "text");
+  
+      // Toggle icon
+      this.classList.remove(isPasswordVisible ? "bx-show" : "bx-hide");
+      this.classList.add(isPasswordVisible ? "bx-hide" : "bx-show");
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const savedUsername = localStorage.getItem("rememberedUsername");
+      if (savedUsername) {
+        document.querySelector("input[name='username']").value = savedUsername;
+        document.getElementById("rememberMe").checked = true;
+      }
+  
+      document.querySelector("form").addEventListener("submit", function () {
+        const username = document.querySelector("input[name='username']").value;
+        if (document.getElementById("rememberMe").checked) {
+          localStorage.setItem("rememberedUsername", username);
+        } else {
+          localStorage.removeItem("rememberedUsername");
+        }
+      });
+    });
+  
+    // Forgot Password Modal
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+          cookie = cookie.trim();
+          if (cookie.startsWith(name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+    
+    function showForgotPassword() {
+      Swal.fire({
+        title: 'Forgot Password',
+        input: 'email',
+        inputLabel: 'Enter your registered email',
+        inputPlaceholder: 'your@email.com',
+        showCancelButton: true,
+        confirmButtonText: 'Submit',
+        preConfirm: (email) => {
+          return fetch('/forgot_password', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({ email: email })
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (!data.exists) {
+              throw new Error('No user found with that email.');
+            }
+            return email; // return for next modal
+          })
+          .catch(err => {
+            Swal.showValidationMessage(err.message);
+          });
+        }
+      }).then((result) => {
+        if (!result.isConfirmed) return;
+    
+        const email = result.value;
+    
+        Swal.fire({
+          title: 'Reset Password',
+          html: `
+            <div style="position: relative;">
+              <input type="password" id="newPassword" class="swal2-input" placeholder="New Password">
+              <i class='bx bx-hide' id="toggleNewPass" style="position: absolute; right: 50px; top: 36px; font-size: 20px; cursor: pointer;"></i>
+            </div>
+            <div style="position: relative;">
+              <input type="password" id="confirmPassword" class="swal2-input" placeholder="Confirm Password">
+              <i class='bx bx-hide' id="toggleConfirmPass" style="position: absolute; right: 50px; top: 36px; font-size: 20px; cursor: pointer;"></i>
+            </div>
+          `,
+          confirmButtonText: 'Update Password',
+          focusConfirm: false,
+          didOpen: () => {
+            const toggle = (inputId, iconId) => {
+              const input = document.getElementById(inputId);
+              const icon = document.getElementById(iconId);
+        
+              icon.addEventListener('click', () => {
+                const isVisible = input.type === 'text';
+                input.type = isVisible ? 'password' : 'text';
+                icon.classList.toggle('bx-hide', isVisible);
+                icon.classList.toggle('bx-show', !isVisible);
+              });
+            };
+        
+            toggle('newPassword', 'toggleNewPass');
+            toggle('confirmPassword', 'toggleConfirmPass');
+          },
+          preConfirm: () => {
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+        
+            if (!newPassword || !confirmPassword) {
+              Swal.showValidationMessage('Please fill out both fields');
+              return;
+            }
+        
+            if (newPassword !== confirmPassword) {
+              Swal.showValidationMessage('Passwords do not match');
+              return;
+            }
+    
+            return fetch('/reset_password', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+              },
+              body: JSON.stringify({ email: email, new_password: newPassword })
+            })
+            .then(res => res.json())
+            .then(data => {
+              if (!data.success) {
+                throw new Error(data.message || 'Error updating password');
+              }
+            })
+            .catch(err => {
+              Swal.showValidationMessage(err.message);
+            });
+          }
+        }).then(result => {
+          if (result.isConfirmed) {
+            Swal.fire('Success!', 'Your password has been updated.', 'success');
+          }
+        });
+      });
+    }
+
   </script>
 </body>
 </html>

@@ -18,7 +18,7 @@ def send_emergency_message(request):
 
             message = client.messages.create(
                 from_= +13374694211,
-                body="Urgent: Please contact [Emergency Services Number] immediately. [Patient's Name] is in a critical situation at [Location], experiencing [brief description of the emergency, e.g., severe withdrawal symptoms/unconsciousness]. Your immediate presence and assistance are needed. For more details, please call [Your Phone Number].",
+                body="Urgent: Please contact 8657153773 immediately. Ayush Mayekar is in a critical situation. Your immediate presence and assistance are needed. For more details, please call 8657153773.",
                 to='+919892496621'
             )
 
