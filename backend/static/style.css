@@ -10,7 +10,7 @@ body{
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: url(bg.jpg) no-repeat;
+  background: url('https://res.cloudinary.com/dpuqctqfl/image/upload/v1752336273/bg_xdpypt.jpg') no-repeat;
   background-size: cover;
   background-position: center;
 }

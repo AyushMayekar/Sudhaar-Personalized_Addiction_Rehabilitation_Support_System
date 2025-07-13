@@ -10,7 +10,7 @@ def chat_view(request):
         if 'userid' in request.session:
             return render(request, 'indexcb.html')
         else :
-            return HttpResponseRedirect('http://127.0.0.1:8000/login?nouser=true')
+            return HttpResponseRedirect('https://sudhaar-personalizedaddictionrehabilitationsu-production.up.railway.app/login?nouser=true')
     elif request.method == "POST":
         if 'userid' in request.session:
             user_id = request.session['userid']
@@ -19,4 +19,4 @@ def chat_view(request):
             bot_response = get_chatbot_response(user_message, user_id)
             return JsonResponse({"response": bot_response})
         else :
-            return HttpResponseRedirect('http://127.0.0.1:8000/login?nouser=true')
+            return HttpResponseRedirect('https://sudhaar-personalizedaddictionrehabilitationsu-production.up.railway.app/login?nouser=true')

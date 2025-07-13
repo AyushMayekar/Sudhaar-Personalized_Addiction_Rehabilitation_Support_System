@@ -15,7 +15,7 @@ def addictions(request):
     if 'userid' in request.session:
             return render(request, 'Addictions.html')
     else :
-            return HttpResponseRedirect('http://127.0.0.1:8000/login?nouser=true')
+            return HttpResponseRedirect('https://sudhaar-personalizedaddictionrehabilitationsu-production.up.railway.app/login?nouser=true')
     
 
 def Aboutus(request):
@@ -78,4 +78,4 @@ def progress(request):
         user_id = request.session['userid']
         return render(request, 'progress.html')  
     else:
-        return HttpResponseRedirect('http://127.0.0.1:8000/login?nouser=true')
+        return HttpResponseRedirect('https://sudhaar-personalizedaddictionrehabilitationsu-production.up.railway.app/login?nouser=true')
