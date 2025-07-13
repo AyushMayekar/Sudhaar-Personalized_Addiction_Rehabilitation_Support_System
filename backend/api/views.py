@@ -63,7 +63,7 @@ def userlogin(request):
                 request.session['is_logged_in'] = True
                 request.session['username'] = username
                 request.session['userid'] = user.get('userid')  
-                return redirect('http://127.0.0.1:8000/')
+                return redirect('https://sudhaar-personalizedaddictionrehabilitationsu-production.up.railway.app/')
             else:
                 # Invalid password
                 return render(request, 'login.html', {'logerror': True})

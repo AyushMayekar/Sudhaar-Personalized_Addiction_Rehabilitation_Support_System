@@ -174,7 +174,7 @@
 
 // Load messages from backend
 function loadMessages() {
-  fetch("http://127.0.0.1:8000/com")
+  fetch("https://sudhaar-personalizedaddictionrehabilitationsu-production.up.railway.app/com")
     .then(res => res.json())
     .then(data => {
       const chat = document.getElementById("chat");
@@ -197,7 +197,7 @@ function sendMessage() {
 
   if (!message) return;
 
-  fetch("http://127.0.0.1:8000/com", {
+  fetch("https://sudhaar-personalizedaddictionrehabilitationsu-production.up.railway.app/com", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
