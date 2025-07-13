@@ -172,6 +172,7 @@
       const rehabContainer = document.getElementById('rehab-container');
       fetch('/rehab_plan')
         .then(response => {
+          credentials: 'include',
           if (!response.ok) throw new Error("Failed to load plan.");
           return response.json();
         })
