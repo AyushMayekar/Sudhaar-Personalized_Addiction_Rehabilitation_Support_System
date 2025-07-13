@@ -225,6 +225,7 @@
         preConfirm: (email) => {
           return fetch('/forgot_password', {
             method: 'POST',
+            credentials: 'include',
             headers: {
               'Content-Type': 'application/json',
               'X-CSRFToken': getCookie('csrftoken')
@@ -297,6 +298,7 @@
                 'Content-Type': 'application/json',
                 'X-CSRFToken': getCookie('csrftoken')
               },
+              credentials: 'include',
               body: JSON.stringify({ email: email, new_password: newPassword })
             })
             .then(res => res.json())

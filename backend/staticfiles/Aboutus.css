@@ -3,7 +3,7 @@ body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background: url('images/bg5.jpg') no-repeat center center fixed;
+    background: url('https://res.cloudinary.com/dpuqctqfl/image/upload/v1752336756/bg5_uycifg.jpg') no-repeat center center fixed;
     background-size: cover;
     color: #333;
 }
