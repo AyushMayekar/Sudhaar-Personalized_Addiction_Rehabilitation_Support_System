@@ -1,16 +1,16 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import logout
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth.hashers import make_password
 from django.http import JsonResponse
 from pymongo import MongoClient
-import bcrypt
 import random
 import json
 from dotenv import load_dotenv
 import os
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import check_password
 
 
 load_dotenv()
@@ -38,7 +38,7 @@ def signup(request):
             return render(request, 'signup.html', {'existing' : True})
 
         if password1 == password2:
-            hashed_password = bcrypt.hashpw(password1.encode('utf-8'), bcrypt.gensalt())
+            hashed_password = make_password(password1)
             userinfo={
             'userid' : generate_user_id(username), 
             'username' : request.POST.get('username'),
@@ -59,7 +59,7 @@ def userlogin(request):
         user = collection.find_one({'username': username})
 
         if user:
-            if bcrypt.checkpw(password.encode('utf-8'), user['password']):
+            if check_password(password, user['password']):
                 request.session['is_logged_in'] = True
                 request.session['username'] = username
                 request.session['userid'] = user.get('userid')  
