@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from pymongo import MongoClient
 import random
 import json
+import traceback
 from dotenv import load_dotenv
 import os
 from django.contrib.auth.hashers import make_password
@@ -53,26 +54,32 @@ def signup(request):
 
 #* Login 
 def userlogin(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = collection.find_one({'username': username})
+    try:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            user = collection.find_one({'username': username})
 
-        if user:
-            if check_password(password, user['password']):
-                request.session['is_logged_in'] = True
-                request.session['username'] = username
-                request.session['userid'] = user.get('userid')  
-                return redirect('https://sudhaar-personalizedaddictionrehabilitationsu-production.up.railway.app/')
+            if user:
+                if check_password(password, user['password']):
+                    request.session['is_logged_in'] = True
+                    request.session['username'] = username
+                    request.session['userid'] = user.get('userid')  
+                    return redirect('https://sudhaar-personalizedaddictionrehabilitationsu-production.up.railway.app/')
+                else:
+                    # Invalid password
+                    return render(request, 'login.html', {'logerror': True})
             else:
-                # Invalid password
-                return render(request, 'login.html', {'logerror': True})
-        else:
-            # User not found
-            return render(request, 'login.html', {'Nouser': True})
+                # User not found
+                return render(request, 'login.html', {'Nouser': True})
 
-    # GET request or invalid form submission
-    return render(request, 'login.html')
+        # GET request or invalid form submission
+        return render(request, 'login.html')
+    except Exception as e:
+        print("🔥🔥🔥 LOGIN VIEW ERROR 🔥🔥🔥")
+        print(f"Error: {e}")
+        print(traceback.format_exc())  # logs full stack trace
+        return JsonResponse({'error': str(e), 'trace': traceback.format_exc()}, status=500)
 
 def userlogout(request):
     request.session.flush() 
