@@ -177,6 +177,7 @@ function loadMessages() {
   fetch("https://sudhaar-personalizedaddictionrehabilitationsu-production.up.railway.app/com", {
     credentials: 'include',
   })
+
     .then(res => res.json())
     .then(data => {
       const chat = document.getElementById("chat");
