@@ -95,7 +95,7 @@ def userlogin(request):
                     request.session['userid'] = user.get('userid')  
                     
                     print(f"🗝️ Session Set: {request.session.items()}")
-                    return redirect('https://sudhaar-personalizedaddictionrehabilitationsu-production.up.railway.app/')
+                    return redirect('/')
                 else:
                     print("❌ Invalid password entered")
                     return render(request, 'login.html', {'logerror': True})
