@@ -53,32 +53,65 @@ def signup(request):
     return render(request, 'signup.html')
 
 #* Login 
+import traceback  # Add this at the top if not already imported
+
+#* Login 
 def userlogin(request):
     try:
+        print("🟡 LOGIN VIEW HIT")
+
         if request.method == 'POST':
+            print("🟢 POST request received")
+
             username = request.POST.get('username')
             password = request.POST.get('password')
+
+            print(f"📥 Username: {username}")
+            print(f"📥 Password: {password}")
+
             user = collection.find_one({'username': username})
+            print(f"🔍 DB Lookup Result: {user}")
 
             if user:
-                if check_password(password, user['password']):
+                print("✅ User found in DB")
+
+                # Logging stored password info
+                print(f"🔐 Stored Password (type: {type(user['password'])}): {user['password']}")
+
+                try:
+                    is_valid = check_password(password, user['password'])
+                    print(f"🔐 Password Valid: {is_valid}")
+                except Exception as pw_err:
+                    print("🔥 Error during password verification")
+                    print(f"❌ Password error: {pw_err}")
+                    print(traceback.format_exc())
+                    return JsonResponse({'error': str(pw_err), 'trace': traceback.format_exc()}, status=500)
+
+                if is_valid:
+                    print("🎉 Password matched, logging user in...")
+
                     request.session['is_logged_in'] = True
                     request.session['username'] = username
                     request.session['userid'] = user.get('userid')  
+                    
+                    print(f"🗝️ Session Set: {request.session.items()}")
                     return redirect('https://sudhaar-personalizedaddictionrehabilitationsu-production.up.railway.app/')
                 else:
-                    # Invalid password
+                    print("❌ Invalid password entered")
                     return render(request, 'login.html', {'logerror': True})
+
             else:
-                # User not found
+                print("❌ Username not found in DB")
                 return render(request, 'login.html', {'Nouser': True})
 
-        # GET request or invalid form submission
-        return render(request, 'login.html')
+        else:
+            print("⚠️ Non-POST request received")
+            return render(request, 'login.html')
+
     except Exception as e:
-        print("🔥🔥🔥 LOGIN VIEW ERROR 🔥🔥🔥")
-        print(f"Error: {e}")
-        print(traceback.format_exc())  # logs full stack trace
+        print("🔥🔥🔥 UNHANDLED LOGIN VIEW ERROR 🔥🔥🔥")
+        print(f"🛑 Error: {e}")
+        print(traceback.format_exc())
         return JsonResponse({'error': str(e), 'trace': traceback.format_exc()}, status=500)
 
 def userlogout(request):
