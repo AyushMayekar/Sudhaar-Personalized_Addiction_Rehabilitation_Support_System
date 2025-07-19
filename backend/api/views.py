@@ -55,6 +55,9 @@ def signup(request):
     return render(request, 'signup.html')
 
 #* Login 
+import traceback  # Add this at the top if not already imported
+
+#* Login 
 def userlogin(request):
     try:
         print("🟡 LOGIN VIEW HIT")
@@ -106,6 +109,7 @@ def userlogin(request):
         else:
             print("⚠️ Non-POST request received")
             return render(request, 'login.html')
+
 
     except Exception as e:
         print("🔥🔥🔥 UNHANDLED LOGIN VIEW ERROR 🔥🔥🔥")
