@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import make_password
@@ -11,7 +10,6 @@ import json
 import traceback
 from dotenv import load_dotenv
 import os
-from django.contrib.auth.hashers import make_password
 from django.contrib.auth.hashers import check_password
 
 logger = logging.getLogger(__name__)
@@ -55,66 +53,29 @@ def signup(request):
     return render(request, 'signup.html')
 
 #* Login 
-import traceback  # Add this at the top if not already imported
-
-#* Login 
 def userlogin(request):
     try:
-        print("🟡 LOGIN VIEW HIT")
-
         if request.method == 'POST':
-            print("🟢 POST request received")
-
             username = request.POST.get('username')
             password = request.POST.get('password')
-
-            print(f"📥 Username: {username}")
-            print(f"📥 Password: {password}")
-
             user = collection.find_one({'username': username})
-            print(f"🔍 DB Lookup Result: {user}")
-
             if user:
-                print("✅ User found in DB")
-
-                # Logging stored password info
-                print(f"🔐 Stored Password (type: {type(user['password'])}): {user['password']}")
-
                 try:
                     is_valid = check_password(password, user['password'])
-                    print(f"🔐 Password Valid: {is_valid}")
                 except Exception as pw_err:
-                    print("🔥 Error during password verification")
-                    print(f"❌ Password error: {pw_err}")
-                    print(traceback.format_exc())
                     return JsonResponse({'error': str(pw_err), 'trace': traceback.format_exc()}, status=500)
-
                 if is_valid:
-                    print("🎉 Password matched, logging user in...")
-
                     request.session['is_logged_in'] = True
                     request.session['username'] = username
-                    request.session['userid'] = user.get('userid')  
-                    
-                    print(f"🗝️ Session Set: {request.session.items()}")
+                    request.session['userid'] = user.get('userid')                      
                     return redirect('/')
                 else:
-                    print("❌ Invalid password entered")
                     return render(request, 'login.html', {'logerror': True})
-
             else:
-                print("❌ Username not found in DB")
                 return render(request, 'login.html', {'Nouser': True})
-
         else:
-            print("⚠️ Non-POST request received")
             return render(request, 'login.html')
-
-
     except Exception as e:
-        print("🔥🔥🔥 UNHANDLED LOGIN VIEW ERROR 🔥🔥🔥")
-        print(f"🛑 Error: {e}")
-        print(traceback.format_exc())
         logger.error("Login failed", exc_info=True)
         return JsonResponse({'error': str(e), 'trace': traceback.format_exc()}, status=500)
 
