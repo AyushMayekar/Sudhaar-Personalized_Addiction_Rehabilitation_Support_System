@@ -6,6 +6,7 @@ from django.contrib.auth.hashers import make_password
 from django.http import JsonResponse
 from pymongo import MongoClient
 import random
+import logging
 import json
 import traceback
 from dotenv import load_dotenv
@@ -13,6 +14,7 @@ import os
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.hashers import check_password
 
+logger = logging.getLogger(__name__)
 
 load_dotenv()
 # Connecting Mongo
@@ -108,10 +110,12 @@ def userlogin(request):
             print("⚠️ Non-POST request received")
             return render(request, 'login.html')
 
+
     except Exception as e:
         print("🔥🔥🔥 UNHANDLED LOGIN VIEW ERROR 🔥🔥🔥")
         print(f"🛑 Error: {e}")
         print(traceback.format_exc())
+        logger.error("Login failed", exc_info=True)
         return JsonResponse({'error': str(e), 'trace': traceback.format_exc()}, status=500)
 
 def userlogout(request):
