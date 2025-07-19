@@ -170,64 +170,85 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const rehabContainer = document.getElementById('rehab-container');
-      fetch('/rehab_plan')
-        .then(response => {
-          credentials: 'include',
-          if (!response.ok) throw new Error("Failed to load plan.");
-          return response.json();
-        })
-        .then(data => {
-          const plan = data.rehab_plan;
-          rehabContainer.innerHTML = '';
+      rehabContainer.innerHTML = `<p style="text-align:center; padding: 2rem;">Loading your personalized plan...</p>`;
 
-          // Display General section first as grid
-          if (plan.General) {
-            const generalSection = document.createElement('div');
-            generalSection.classList.add('section');
-            generalSection.innerHTML = `<h3>Client Overview</h3>`;
-            const grid = document.createElement('div');
-            grid.classList.add('info-grid');
+      fetch('/rehab_plan', {
+        credentials: 'include'  // ✅ Ensure session is preserved on backend
+      })
+      .then(response => {
+        if (!response.ok) throw new Error("Failed to load plan.");
+        return response.json();
+      })
+      .then(data => {
+        const plan = data.rehab_plan;
 
-            plan.General.forEach(item => {
-              const parts = item.split(":");
-              const key = parts[0]?.trim();
-              const val = parts.slice(1).join(":").trim();
-              const card = document.createElement('div');
-              card.classList.add('info-card');
-              card.innerHTML = `<strong>${key}:</strong><span>${val}</span>`;
-              grid.appendChild(card);
-            });
+        // ✅ Handle no data returned from backend
+        if (!plan || Object.keys(plan).length === 0 || Object.values(plan).every(v => v.length === 0)) {
+          rehabContainer.innerHTML = `
+            <p style="color: #c62828; text-align:center; padding: 2rem; font-size: 1.1rem;">
+              😕 No rehabilitation plan found.<br><br>
+              Please fill out the <strong>Personalized Rehab Form</strong> to generate your plan.
+            </p>`;
+          return;
+        }
 
-            generalSection.appendChild(grid);
-            rehabContainer.appendChild(generalSection);
-          }
+        rehabContainer.innerHTML = '';  // Clear loading text
 
-          // Render other sections
-          for (const section in plan) {
-            if (section === 'General') continue;
-            const sectionBlock = document.createElement('div');
-            sectionBlock.classList.add('section');
-            sectionBlock.innerHTML = `<h3>${section}</h3>`;
+        // ✅ Display General section (overview)
+        if (plan.General && plan.General.length > 0) {
+          const generalSection = document.createElement('div');
+          generalSection.classList.add('section');
+          generalSection.innerHTML = `<h3>Client Overview</h3>`;
+          const grid = document.createElement('div');
+          grid.classList.add('info-grid');
 
-            const list = document.createElement('ul');
-            list.classList.add('phase-list');
-            plan[section].forEach(point => {
-              const li = document.createElement('li');
-              li.textContent = point;
-              list.appendChild(li);
-            });
-
+          plan.General.forEach(item => {
+            const parts = item.split(":");
+            const key = parts[0]?.trim();
+            const val = parts.slice(1).join(":").trim();
             const card = document.createElement('div');
-            card.classList.add('phase-card');
-            card.appendChild(list);
+            card.classList.add('info-card');
+            card.innerHTML = `<strong>${key}:</strong><span>${val}</span>`;
+            grid.appendChild(card);
+          });
 
-            sectionBlock.appendChild(card);
-            rehabContainer.appendChild(sectionBlock);
-          }
-        })
-        .catch(error => {
-          rehabContainer.innerHTML = `<p style="color:red; text-align:center;">Error: ${error.message}</p>`;
-        });
+          generalSection.appendChild(grid);
+          rehabContainer.appendChild(generalSection);
+        }
+
+        // ✅ Display all other non-empty sections
+        for (const section in plan) {
+          if (section === 'General') continue;
+          if (!plan[section] || plan[section].length === 0) continue;
+
+          const sectionBlock = document.createElement('div');
+          sectionBlock.classList.add('section');
+          sectionBlock.innerHTML = `<h3>${section}</h3>`;
+
+          const list = document.createElement('ul');
+          list.classList.add('phase-list');
+          plan[section].forEach(point => {
+            const li = document.createElement('li');
+            li.textContent = point;
+            list.appendChild(li);
+          });
+
+          const card = document.createElement('div');
+          card.classList.add('phase-card');
+          card.appendChild(list);
+
+          sectionBlock.appendChild(card);
+          rehabContainer.appendChild(sectionBlock);
+        }
+      })
+      .catch(error => {
+        // ✅ Show clean error message on network/server error
+        rehabContainer.innerHTML = `
+          <p style="color:red; text-align:center; font-size: 1.1rem; padding: 2rem;">
+            🚨 Failed to load your rehabilitation plan. <br>Please try again later.
+          </p>`;
+        console.error("Plan fetch failed:", error);
+      });
     });
   </script>
 </body>
