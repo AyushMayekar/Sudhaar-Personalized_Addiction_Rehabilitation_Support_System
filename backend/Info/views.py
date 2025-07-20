@@ -61,12 +61,18 @@ def format_raw_plan(plan):
 def get_rehabilitation_plan_api(request):
     if 'userid' in request.session: 
         user_id = request.session['userid']
-        user_data = convo.find_one({'userid': user_id}, {'Rehab_Plan': True, '_id': False})
+        user_data = convo.find_one({'userid': user_id}, {'Rehab_Plan': True, 'username': True, 'email': True, '_id': False})
         if not user_data or 'Rehab_Plan' not in user_data:
             return JsonResponse({'error': 'Rehabilitation plan not found.'}, status=404)
 
         raw_plan = user_data['Rehab_Plan']
-        structured_plan = format_raw_plan(raw_plan)
+        general_info = [
+            f"Username: {user_data.get('username', 'N/A')}",
+            f"Email: {user_data.get('email', 'N/A')}",
+        ]
+        general_section = "**General:**\n" + "\n".join(f"* {line}" for line in general_info) + "\n\n"
+        full_plan = general_section + raw_plan
+        structured_plan = format_raw_plan(full_plan)
 
         return JsonResponse({'rehab_plan': structured_plan})
     

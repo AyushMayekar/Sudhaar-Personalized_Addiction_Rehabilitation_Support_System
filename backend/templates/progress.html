@@ -72,11 +72,20 @@
       font-size: 2.5rem;
     }
     .section {
-      margin: 2rem 0;
-    }
+      width: 100%;
+      display: block;
+      clear: both; /* 🔥 Force new line in flow */
+      margin: 3rem 0;
+      }
+
+      .section:not(:first-child) {
+        border-top: 1px solid #ccc;
+        padding-top: 2rem;
+      }
+
     .section h3 {
       color: #263238;
-      margin-bottom: 1rem;
+      margin-bottom: 1.2rem;
       border-left: 5px solid #1e2a38;
       padding-left: 1rem;
       font-size: 1.5rem;
@@ -116,9 +125,9 @@
     
     .phase-card {
       background: #e0f7fa;
-      border-left: 5px solid #0288d1;
+      border-left: 6px solid #0288d1;
       border-radius: 14px;
-      padding: 1.2rem 1.8rem;
+      padding: 1.5rem 2rem;
       margin-top: 1rem;
       box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
     }
@@ -205,9 +214,8 @@
           grid.classList.add('info-grid');
 
           plan.General.forEach(item => {
-            const parts = item.split(":");
-            const key = parts[0]?.trim();
-            const val = parts.slice(1).join(":").trim();
+            const [key, ...valParts] = item.split(":");
+            const val = valParts.join(":").trim();
             const card = document.createElement('div');
             card.classList.add('info-card');
             card.innerHTML = `<strong>${key}:</strong><span>${val}</span>`;

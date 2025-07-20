@@ -41,9 +41,6 @@ def analytics(request):
             other_info = request.POST.get("other-info")
             emergency_contact1 = request.POST.get("emergency-contact1")
             emergency_contact2 = request.POST.get("emergency-contact2")
-
-            print("All values recieved!!")
-
         # Retrieve conversation data from MongoDB
             all_conversations = convo.find_one({'userid': user_id},
                                             {'conversation_log': True, '_id' : False})
@@ -51,7 +48,6 @@ def analytics(request):
                 Chat = format_conversation_log(all_conversations['conversation_log'])
             else:
                 Chat =""    
-            print("Conversation searched and formatted")
         # Prepare data for LLM
             form_data = {
             "addiction": addiction,
@@ -73,15 +69,12 @@ def analytics(request):
         {'$set': {'form_data' : form_data}}   
             )
 
-            print("convo saved iin DB")
         # Generate a personalized rehabilitation plan using LLM
             rehabilitation_plan = generate_rehabilitation_plan(form_data, Chat)
-            print("rehab plan generated!!!")
             convo.update_one(
             {'userid': user_id},  
             {'$set': {'Rehab_Plan' : rehabilitation_plan}}   
             )
-            print("Now redirecting")
             return(render(request, 'form.html'))
         
         # redirect after submitting
