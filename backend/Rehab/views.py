@@ -41,6 +41,7 @@ def analytics(request):
             other_info = request.POST.get("other-info")
             emergency_contact1 = request.POST.get("emergency-contact1")
             emergency_contact2 = request.POST.get("emergency-contact2")
+
         # Retrieve conversation data from MongoDB
             all_conversations = convo.find_one({'userid': user_id},
                                             {'conversation_log': True, '_id' : False})
@@ -68,6 +69,7 @@ def analytics(request):
         {'userid': user_id},  
         {'$set': {'form_data' : form_data}}   
             )
+
 
         # Generate a personalized rehabilitation plan using LLM
             rehabilitation_plan = generate_rehabilitation_plan(form_data, Chat)
