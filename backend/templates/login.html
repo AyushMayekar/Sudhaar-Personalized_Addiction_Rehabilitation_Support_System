@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login Form - SUDHAAR</title>
   <link rel="stylesheet">
+  <link rel="icon" href="https://res.cloudinary.com/dpuqctqfl/image/upload/v1753012093/favicon_kbzhpm.png" type="image/png">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <style>*{
     margin: 0;
@@ -19,7 +20,7 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: url("{% static 'images/login.jpg' %}") no-repeat;
+    background: url("https://res.cloudinary.com/dpuqctqfl/image/upload/v1752333870/login_xejsgx.jpg") no-repeat;
     background-size: cover;
     background-position: center;
   }
@@ -132,7 +133,7 @@
       </div>      
       <button type="submit" class="btn">Login</button>
       <div class="register-link">
-        <p>Dont have an account? <a href="http://127.0.0.1:8000/signup">Register</a></p>
+        <p>Dont have an account? <a href="https://sudhaar-personalizedaddictionrehabilitationsu-production.up.railway.app/signup">Register</a></p>
       </div>
     </form>
   </div>
@@ -225,6 +226,7 @@
         preConfirm: (email) => {
           return fetch('/forgot_password', {
             method: 'POST',
+            credentials: 'include',
             headers: {
               'Content-Type': 'application/json',
               'X-CSRFToken': getCookie('csrftoken')
@@ -297,6 +299,7 @@
                 'Content-Type': 'application/json',
                 'X-CSRFToken': getCookie('csrftoken')
               },
+              credentials: 'include',
               body: JSON.stringify({ email: email, new_password: newPassword })
             })
             .then(res => res.json())

@@ -11,7 +11,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: url('bg.jpg') no-repeat center center fixed;
+    background: url('https://res.cloudinary.com/dpuqctqfl/image/upload/v1752336273/bg_xdpypt.jpg') no-repeat center center fixed;
     background-size: cover;
 }
 

@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  {% load static %}
   <meta charset="UTF-8">
   <title>Sudhaar Community Chat</title>
+  <link rel="icon" href="https://res.cloudinary.com/dpuqctqfl/image/upload/v1753012093/favicon_kbzhpm.png" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
@@ -174,7 +176,10 @@
 
 // Load messages from backend
 function loadMessages() {
-  fetch("http://127.0.0.1:8000/com")
+  fetch("https://sudhaar-personalizedaddictionrehabilitationsu-production.up.railway.app/com", {
+    credentials: 'include',
+  })
+
     .then(res => res.json())
     .then(data => {
       const chat = document.getElementById("chat");
@@ -197,8 +202,9 @@ function sendMessage() {
 
   if (!message) return;
 
-  fetch("http://127.0.0.1:8000/com", {
+  fetch("https://sudhaar-personalizedaddictionrehabilitationsu-production.up.railway.app/com", {
     method: "POST",
+    credentials: 'include',
     headers: {
       "Content-Type": "application/json"
     },

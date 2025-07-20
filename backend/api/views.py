@@ -1,17 +1,18 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import logout
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth.hashers import make_password
 from django.http import JsonResponse
 from pymongo import MongoClient
-import bcrypt
 import random
+import logging
 import json
+import traceback
 from dotenv import load_dotenv
 import os
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import check_password
 
+logger = logging.getLogger(__name__)
 
 load_dotenv()
 # Connecting Mongo
@@ -38,7 +39,7 @@ def signup(request):
             return render(request, 'signup.html', {'existing' : True})
 
         if password1 == password2:
-            hashed_password = bcrypt.hashpw(password1.encode('utf-8'), bcrypt.gensalt())
+            hashed_password = make_password(password1)
             userinfo={
             'userid' : generate_user_id(username), 
             'username' : request.POST.get('username'),
@@ -53,26 +54,30 @@ def signup(request):
 
 #* Login 
 def userlogin(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = collection.find_one({'username': username})
-
-        if user:
-            if bcrypt.checkpw(password.encode('utf-8'), user['password']):
-                request.session['is_logged_in'] = True
-                request.session['username'] = username
-                request.session['userid'] = user.get('userid')  
-                return redirect('http://127.0.0.1:8000/')
+    try:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            user = collection.find_one({'username': username})
+            if user:
+                try:
+                    is_valid = check_password(password, user['password'])
+                except Exception as pw_err:
+                    return JsonResponse({'error': str(pw_err), 'trace': traceback.format_exc()}, status=500)
+                if is_valid:
+                    request.session['is_logged_in'] = True
+                    request.session['username'] = username
+                    request.session['userid'] = user.get('userid')                      
+                    return redirect('/')
+                else:
+                    return render(request, 'login.html', {'logerror': True})
             else:
-                # Invalid password
-                return render(request, 'login.html', {'logerror': True})
+                return render(request, 'login.html', {'Nouser': True})
         else:
-            # User not found
-            return render(request, 'login.html', {'Nouser': True})
-
-    # GET request or invalid form submission
-    return render(request, 'login.html')
+            return render(request, 'login.html')
+    except Exception as e:
+        logger.error("Login failed", exc_info=True)
+        return JsonResponse({'error': str(e), 'trace': traceback.format_exc()}, status=500)
 
 def userlogout(request):
     request.session.flush() 

@@ -1,91 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ABOUT US - SUDHAAR</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'Aboutus.css' %}">
+  {% load static %}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us - Sudhaar</title>
+  <link rel="icon" href="https://res.cloudinary.com/dpuqctqfl/image/upload/v1753012093/favicon_kbzhpm.png" type="image/png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+
+  <style>
+    .perspective { perspective: 1500px; }
+    .flip-card-inner {
+      transform-style: preserve-3d;
+      transition: transform 0.8s ease-in-out;
+    }
+    .group:hover .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+    .flip-card-front, .flip-card-back {
+      backface-visibility: hidden;
+    }
+    .flip-card-back {
+      transform: rotateY(180deg);
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .border-gradient-animated {
+      background:
+        linear-gradient(#1e293b, #1e293b) padding-box,
+        linear-gradient(120deg, #38bdf8, #ffffff, #6366f1, #38bdf8) border-box;
+      border: 4px solid transparent;
+      background-origin: border-box;
+      background-clip: padding-box, border-box;
+      animation: animated-border 5s linear infinite;
+    }
+    @keyframes animated-border {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .team-img {
+      transition: all 0.3s ease-in-out;
+    }
+    .animated-gradient {
+      background: linear-gradient(90deg, #38bdf8, #ffffff, #38bdf8);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientMove 6s ease infinite;
+    }
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    #tsparticles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .card-inactive {
+      filter: grayscale(100%) brightness(60%);
+      opacity: 0.5;
+      transition: all 0.3s ease-in-out;
+    }
+  </style>
 </head>
-<body>
-    <header>
-        <div class="header-content">
-            <h1>Welcome to Sudhaar</h1>
-            <p>Ready to Reclaim Your Life? <br><br>Sudhaar: Where Recovery Begins and Hope Thrives.<br><br>
-                Are you tired of the struggle? Seeking a way out? <br><br>It's time to write your comeback story.</p>
-        </div>
-    </header>
 
-    <section class="about-us">
-        <div class="container">
-            <img src="{% static 'images/bg6.png' %}" alt="About Us" class="about-us-image">
-            <h2>About Us</h2>
-            <p>Sudhaar is dedicated to helping individuals overcome their addictions and regain control of their lives. We offer a personalized approach to rehabilitation, ensuring that every person receives the support and guidance they need on their journey to recovery.</p>
-        </div>
-    </section>
+<body class="bg-slate-900 text-white font-sans transition-all duration-500">
+  <!-- Header -->
+  <header class="relative overflow-hidden bg-slate-900 h-[300px] sm:h-[360px] lg:h-[400px] flex items-center justify-center text-center">
+    <div id="tsparticles"></div>
+    <a href="/" class="fixed top-4 left-4 bg-slate-800 text-slate-200 hover:text-sky-400 py-2 px-4 rounded-lg shadow-md z-50 backdrop-blur-md transition-all duration-300 flex items-center gap-2">
+      <i class="ph ph-arrow-left text-lg"></i> Back to Home
+    </a>
+    <div class="relative z-10 px-6">
+      <h1 class="animated-gradient text-4xl sm:text-5xl font-extrabold tracking-tight mb-3">
+        Meet the Team Behind Sudhaar
+      </h1>
+      <p class="text-slate-300 text-lg sm:text-xl md:text-2xl max-w-2xl mx-auto mt-2">
+        Empowering recovery through technology and compassion.
+      </p>
+    </div>
+  </header>
 
-    <section class="services">
-        <div class="container">
-            <h2>Our Services</h2>
-            <div class="service-cards">
-                <div class="card">
-                    <img src="{% static 'images/report.jpg' %}" alt="Personalized Rehab Report">
-                    <h3>Personalized Rehab Report</h3>
-                    <p>Get customized reports based on your addiction profile and progress towards recovery.</p>
-                </div>
-                <div class="card">
-                    <img src="{% static 'images/chatbot.jpg' %}" alt="Chatbot Support">
-                    <h3>Chatbot Support</h3>
-                    <p>Use our AI-powered chatbot to ask questions, get instant answers, and analyze your behavior patterns.</p>
-                </div>
-                <div class="card">
-                    <img src="{% static 'images/community.jpg' %}" alt="Emergency Support">
-                    <h3>Emergency Support</h3>
-                    <p>If there is an Emergency, the emergency numbers will be alerted as soon as user presses the button.</p>
-                </div>
-                <div class="card">
-                    <img src="{% static 'images/counsellor.jpg' %}" alt="Counselor Access">
-                    <h3>Speak with Counselors</h3>
-                    <p>Access professional counselors for personalized guidance and support throughout your recovery process.</p>
-                </div>
+  <!-- Team Section -->
+  <main class="py-20 px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="max-w-7xl mx-auto grid gap-20 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-4 justify-items-center">
+
+      <!-- Ayush -->
+      <div class="group flip-card relative w-[280px] h-[380px] sm:w-[300px] sm:h-[400px] perspective">
+        <div class="flip-card-inner w-full h-full relative">
+          <div class="flip-card-front bg-slate-800 border-gradient-animated rounded-2xl shadow-xl w-full h-full p-6 flex flex-col items-center justify-center text-center">
+            <img src="https://res.cloudinary.com/dpuqctqfl/image/upload/v1752545012/Ayush_et4zhu.png" alt="Ayush" class="team-img w-32 h-32 rounded-full border-4 border-sky-400 object-cover mb-4">
+            <h2 class="text-2xl font-semibold text-sky-300">Ayush Mayekar</h2>
+            <p class="text-slate-400 text-lg mt-4 leading-relaxed">Owns projects end-to-end, translating bold ideas into reliable, production-ready code with a focus on execution, quality, and impact.</p>
+          </div>
+          <div class="flip-card-back bg-slate-800 border-gradient-animated rounded-2xl shadow-xl w-full h-full p-6 flex flex-col items-center justify-center text-center">
+            <h2 class="text-4xl font-bold text-sky-300 mb-4">Ayush Mayekar</h2>
+            <div class="space-y-3 text-base">
+              <a href="https://www.instagram.com/ayush_mayekar_21/" target="_blank" class="flex items-center gap-2 text-slate-300 hover:text-pink-400"><i class="ph ph-instagram-logo"></i>@ayush_mayekar_21</a>
+              <a href="https://github.com/AyushMayekar" target="_blank" class="flex items-center gap-2 text-slate-300 hover:text-gray-300"><i class="ph ph-github-logo"></i>@AyushMayekar</a>
+              <a href="https://www.linkedin.com/in/ayush-mayekar-b9b883284/" target="_blank" class="flex items-center gap-2 text-slate-300 hover:text-sky-400"><i class="ph ph-linkedin-logo"></i>@Ayush Mayekar</a>
             </div>
+          </div>
         </div>
-    </section>
+      </div>
 
-    <section class="mission">
-        <div class="container">
-            <h2>Our Mission</h2>
-            <p>At Sudhaar, our mission is to empower individuals to break free from addiction and live healthier, more fulfilling lives. We believe in compassionate care, personalized rehabilitation, and fostering a supportive community for lasting recovery.</p>
-        </div>
-    </section>
-
-    <section class="team">
-        <div class="container">
-            <h2>Meet Our Team</h2>
-            <div class="team-cards">
-                <div class="team-card">
-                    <img src="{% static 'images/athena James.jpg' %}" alt="Athena James">
-                    <h3>Dr. Athena James</h3>
-                    <p>Lead Counselor</p>
-                </div>
-                <div class="team-card">
-                    <img src="{% static 'images/David De Gea.jpg' %}" alt="Mr. David De Gea">
-                    <h3>Mr. David De Gea</h3>
-                    <p>Behavioral Therapist</p>
-                </div>
-                <div class="team-card">
-                    <img src="{% static 'images/Rakesh Narayanan.jpg' %}" alt="Mr. Rakesh Narayanan">
-                    <h3>Mr. Rakesh Narayanan</h3>
-                    <p>Community Coordinator</p>
-                </div>
+      <!-- Dnyanesh -->
+      <div class="group flip-card relative w-[280px] h-[380px] sm:w-[300px] sm:h-[400px] perspective">
+        <div class="flip-card-inner w-full h-full relative">
+          <div class="flip-card-front bg-slate-800 border-gradient-animated rounded-2xl shadow-xl w-full h-full p-6 flex flex-col items-center justify-center text-center">
+            <img src="https://res.cloudinary.com/dpuqctqfl/image/upload/v1752547410/Dnyanesh_mwdegb.jpg" alt="Dnyanesh" class="team-img w-32 h-32 rounded-full border-4 border-sky-400 object-cover mb-4">
+            <h2 class="text-2xl font-semibold text-sky-300">Dnyanesh Panchal</h2>
+            <p class="text-slate-400 text-lg mt-4 leading-relaxed">Transforms ideas into engaging, intuitive interfaces with thoughtful design and seamless user journeys, turning functionality into visual clarity.</p>
+          </div>
+          <div class="flip-card-back bg-slate-800 border-gradient-animated rounded-2xl shadow-xl w-full h-full p-6 flex flex-col items-center justify-center text-center">
+            <h2 class="text-3xl font-semibold text-sky-300 mb-2">Dnyanesh Panchal</h2>
+            <div class="space-y-2 text-sm">
+              <a href="https://www.instagram.com/dnyanesh_panchal27/" target="_blank" class="flex items-center gap-2 text-slate-300 hover:text-pink-400"><i class="ph ph-instagram-logo"></i>@dnyanesh_panchal27</a>
+              <a href="https://github.com/Dnyanesh2709" target="_blank" class="flex items-center gap-2 text-slate-300 hover:text-gray-300"><i class="ph ph-github-logo"></i>@Dnyanesh2709</a>
+              <a href="https://www.linkedin.com/in/dnyanesh-panchal/" target="_blank" class="flex items-center gap-2 text-slate-300 hover:text-sky-400"><i class="ph ph-linkedin-logo"></i>@Dnyanesh Panchal</a>
             </div>
+          </div>
         </div>
-    </section>
+      </div>
 
-    <footer>
-        <div class="footer-content">
-            <p>&copy; 2024 Sudhaar. All Rights Reserved.</p>
+      <!-- Yash -->
+      <div class="group flip-card relative w-[280px] h-[380px] sm:w-[300px] sm:h-[400px] perspective">
+        <div class="flip-card-inner w-full h-full relative">
+          <div class="flip-card-front bg-slate-800 border-gradient-animated rounded-2xl shadow-xl w-full h-full p-6 flex flex-col items-center justify-center text-center">
+            <img src="https://res.cloudinary.com/dpuqctqfl/image/upload/v1752547409/YashM_f4xzvc.png" alt="Yash" class="team-img w-32 h-32 rounded-full border-4 border-sky-400 object-cover mb-4">
+            <h2 class="text-2xl font-semibold text-sky-300">Yash Mayekar</h2>
+            <p class="text-slate-400 text-lg mt-4 leading-relaxed">Maintains a robust, scalable backend and proactive monitoring systems, ensuring optimal performance and seamless user experiences.</p>
+          </div>
+          <div class="flip-card-back bg-slate-800 border-gradient-animated rounded-2xl shadow-xl w-full h-full p-6 flex flex-col items-center justify-center text-center">
+            <h2 class="text-3xl font-semibold text-sky-300 mb-2">Yash Mayekar</h2>
+            <div class="space-y-2 text-sm">
+              <a href="https://www.instagram.com/not.thatyash/" target="_blank" class="flex items-center gap-2 text-slate-300 hover:text-pink-400"><i class="ph ph-instagram-logo"></i>@not.thatyash</a>
+              <a href="https://github.com/YashMayekar" target="_blank" class="flex items-center gap-2 text-slate-300 hover:text-gray-300"><i class="ph ph-github-logo"></i>@YashMayekar</a>
+              <a href="https://www.linkedin.com/in/yashmayekar21/" target="_blank" class="flex items-center gap-2 text-slate-300 hover:text-sky-400"><i class="ph ph-linkedin-logo"></i>@Yash Mayekar</a>
+            </div>
+          </div>
         </div>
-    </footer>
+      </div>
+
+      <!-- Charmi -->
+      <div class="group flip-card relative w-[280px] h-[380px] sm:w-[300px] sm:h-[400px] perspective">
+        <div class="flip-card-inner w-full h-full relative">
+          <div class="flip-card-front bg-slate-800 border-gradient-animated rounded-2xl shadow-xl w-full h-full p-6 flex flex-col items-center justify-center text-center">
+            <img src="https://res.cloudinary.com/dpuqctqfl/image/upload/v1752547420/Charmi_bvhtbk.jpg" alt="Charmi" class="team-img w-32 h-32 rounded-full border-4 border-sky-400 object-cover mb-4">
+            <h2 class="text-2xl font-semibold text-sky-300">Charmi Jani</h2>
+            <p class="text-slate-400 text-lg mt-4 leading-relaxed">Builds strong user relationships with empathy and clarity, driving a human-centered experience at every touchpoint.</p>
+          </div>
+          <div class="flip-card-back bg-slate-800 border-gradient-animated rounded-2xl shadow-xl w-full h-full p-6 flex flex-col items-center justify-center text-center">
+            <h2 class="text-4xl font-bold text-sky-300 mb-4">Charmi Jani</h2>
+            <div class="space-y-3 text-base">
+              <a href="https://www.instagram.com/charmij_03/" target="_blank" class="flex items-center gap-2 text-slate-300 hover:text-pink-400"><i class="ph ph-instagram-logo"></i>@charmij_03</a>
+              <a href="https://github.com/CharmiJani" target="_blank" class="flex items-center gap-2 text-slate-300 hover:text-gray-300"><i class="ph ph-github-logo"></i>@CharmiJani</a>
+              <a href="https://www.linkedin.com/in/charmi-jani/" target="_blank" class="flex items-center gap-2 text-slate-300 hover:text-sky-400"><i class="ph ph-linkedin-logo"></i>@Charmi Jani</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-slate-800 mt-12 py-6 text-center text-slate-400 text-sm">
+    © 2025 Sudhaar. All rights reserved.
+  </footer>
+
+  <!-- tsParticles Setup -->
+  <script>
+    tsParticles.load("tsparticles", {
+      fpsLimit: 60,
+      background: { color: "transparent" },
+      particles: {
+        number: { value: 60 },
+        color: { value: "#38bdf8" },
+        links: { enable: true, color: "#38bdf8", distance: 120 },
+        move: { enable: true, speed: 1 },
+        size: { value: { min: 1, max: 3 } },
+        opacity: { value: 0.6 },
+      },
+      interactivity: {
+        events: { onHover: { enable: true, mode: "grab" } },
+        modes: { grab: { distance: 140, links: { opacity: 1 } } }
+      },
+      detectRetina: true
+    });
+
+    // Inactive card fade effect
+    const cards = document.querySelectorAll(".flip-card");
+    cards.forEach(card => {
+      card.addEventListener("mouseenter", () => {
+        cards.forEach(c => { if (c !== card) c.classList.add("card-inactive"); });
+      });
+      card.addEventListener("mouseleave", () => {
+        cards.forEach(c => c.classList.remove("card-inactive"));
+      });
+    });
+  </script>
 </body>
 </html>

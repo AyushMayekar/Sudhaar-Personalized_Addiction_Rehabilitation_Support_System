@@ -70,6 +70,7 @@ def analytics(request):
         {'$set': {'form_data' : form_data}}   
             )
 
+
         # Generate a personalized rehabilitation plan using LLM
             rehabilitation_plan = generate_rehabilitation_plan(form_data, Chat)
             convo.update_one(
@@ -81,5 +82,5 @@ def analytics(request):
         # redirect after submitting
         return(render(request, 'form.html'))
     else:
-        return HttpResponseRedirect('http://127.0.0.1:8000/login?nouser=true')
+        return HttpResponseRedirect('https://sudhaar-personalizedaddictionrehabilitationsu-production.up.railway.app/login?nouser=true')
 

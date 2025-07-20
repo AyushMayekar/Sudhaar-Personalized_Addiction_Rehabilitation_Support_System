@@ -21,7 +21,7 @@ def Community(request):
     if 'userid' in request.session:
         return render(request, 'community.html', {"loggedin_username": request.session['username']})
     else:
-        return HttpResponseRedirect('http://127.0.0.1:8000/login?nouser=true')
+        return HttpResponseRedirect('https://sudhaar-personalizedaddictionrehabilitationsu-production.up.railway.app/login?nouser=true')
 
 @csrf_exempt
 def com(request):
