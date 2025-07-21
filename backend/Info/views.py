@@ -22,36 +22,46 @@ def Aboutus(request):
     return render(request, 'Aboutus.html')
 
 
-
 # Utility function to clean and format LLM response
 def format_raw_plan(plan):
     sections = {}
     current_section = "General"
     buffer = []
 
+    # Define the expected section headers (clean, no markdown)
+    section_headers = [
+        "Phase 1: Assessment and Stabilization",
+        "Phase 2: Treatment",
+        "Phase 3: Maintenance",
+        "Phase 4: Aftercare",
+        "Goals",
+        "Support System",
+        "Triggers",
+        "Additional Components",
+        "Evaluation",
+        "Other Information"
+    ]
+
     for line in plan.splitlines():
         line = line.strip()
         if not line:
             continue
 
-        # Detect section headers
-        match = re.match(r"\*\*?(Phase\s+\d+.*?|Additional Components|Goals|Support System|Triggers|Other Information|Evaluation)\**?:?", line, re.IGNORECASE)
-        if match:
+        # Check if the line matches one of the section headers exactly
+        if any(line.lower().startswith(header.lower()) for header in section_headers):
             if buffer:
                 sections[current_section] = buffer
                 buffer = []
-            current_section = match.group(1).strip()
+            current_section = line.strip()
             continue
 
-        # Remove bullets, markdown, leading garbage
-        cleaned = re.sub(r"^[\*\-•\d\.\s]+", '', line)        # remove bullets
-        cleaned = re.sub(r'\*\*+', '', cleaned)               # remove **
-        cleaned = re.sub(r'\s*:\s*$', '', cleaned)            # remove trailing :
-        cleaned = cleaned.strip()
+        # Clean bullets or noise (if any)
+        cleaned = re.sub(r"^[\*\-•\d\.\s]+", '', line).strip()
 
         if cleaned:
             buffer.append(cleaned)
 
+    # Add the last section
     if buffer:
         sections[current_section] = buffer
 
@@ -66,16 +76,14 @@ def get_rehabilitation_plan_api(request):
             return JsonResponse({'error': 'Rehabilitation plan not found.'}, status=404)
 
         raw_plan = user_data['Rehab_Plan']
-        general_info = [
-            f"Username: {user_data.get('username', 'N/A')}",
-            f"Email: {user_data.get('email', 'N/A')}",
-        ]
-        general_section = "**General:**\n" + "\n".join(f"* {line}" for line in general_info) + "\n\n"
-        full_plan = general_section + raw_plan
-        structured_plan = format_raw_plan(full_plan)
+        general_info = {
+        "Username": user_data.get('username', 'N/A'),
+        "Email": user_data.get('email', 'N/A')
+    }
 
-        return JsonResponse({'rehab_plan': structured_plan})
-    
+        structured_plan = format_raw_plan(raw_plan)
+
+        return JsonResponse({'rehab_plan': structured_plan, 'general_info': general_info})    
     return JsonResponse({'error': 'Unauthorized'}, status=401)
 
 

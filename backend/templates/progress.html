@@ -192,6 +192,7 @@
       })
       .then(data => {
         const plan = data.rehab_plan;
+        const general = data.general_info;
   
         if (!plan || Object.keys(plan).length === 0 || Object.values(plan).every(v => v.length === 0)) {
           rehabContainer.innerHTML = `
@@ -205,34 +206,22 @@
         rehabContainer.innerHTML = '';
   
         // 👉 General Section — Card Grid
-        if (plan.General && plan.General.length > 0) {
-          const generalSection = document.createElement('div');
-          generalSection.classList.add('section');
-          generalSection.innerHTML = `<h3>Client Overview</h3>`;
-  
-          const grid = document.createElement('div');
-          grid.classList.add('info-grid');
-  
-          plan.General.forEach(item => {
-            if (!item || item.trim().length === 0) return;
-  
-            const card = document.createElement('div');
-            card.classList.add('info-card');
-  
-            if (item.includes(":")) {
-              const [key, ...valParts] = item.split(":");
-              const val = valParts.join(":").trim();
-              card.innerHTML = `<strong>${key.trim()}:</strong><span>${val}</span>`;
-            } else {
-              card.innerHTML = `<span>${item}</span>`;
-            }
-  
-            grid.appendChild(card);
-          });
-  
-          generalSection.appendChild(grid);
-          rehabContainer.appendChild(generalSection);
+        const generalSection = document.createElement('div');
+        generalSection.classList.add('section');
+        generalSection.innerHTML = `<h3>Client Overview</h3>`;
+        
+        const grid = document.createElement('div');
+        grid.classList.add('info-grid');
+        
+        for (const key in general) {
+          const card = document.createElement('div');
+          card.classList.add('info-card');
+          card.innerHTML = `<strong>${key}:</strong><span>${general[key]}</span>`;
+          grid.appendChild(card);
         }
+        
+        generalSection.appendChild(grid);
+        rehabContainer.appendChild(generalSection);
   
         // 👉 All Other Sections — Phase Cards
         for (const section in plan) {
@@ -268,7 +257,6 @@
         console.error("Plan fetch failed:", error);
       });
     });
-  </script>  
   </script>  
 </body>
 </html>
