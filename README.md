@@ -39,6 +39,12 @@ Welcome to the Sudhaar repository! This project is an innovative platform design
 
 4. **Access the application**: Open your web browser and navigate to `http://127.0.0.1:8000`.
 
+OR 
+
+Just simply click on the link below to use SUDHAAR !!!
+
+https://sudhaar-personalizedaddictionrehabilitationsu-production.up.railway.app/
+
 ## Screenshots
 
 1. User Dashboard Example:
@@ -56,6 +62,13 @@ Welcome to the Sudhaar repository! This project is an innovative platform design
 4. Dashboard Example:
 
    ![4](https://github.com/AyushMayekar/Sudhaar/blob/main/SS4.png)
+
+   ---
+
+## Video Walkthrough
+
+[![Watch the video](https://img.youtube.com/vi/tQBZpP6WyXs/maxresdefault.jpg)](https://youtu.be/tQBZpP6WyXs)
+---
 
 ## Contact
 
